@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<BaseOutputPath>bin</BaseOutputPath>
+	<BaseIntermediateOutputPath>obj</BaseIntermediateOutputPath>
+	<Configurations>Debug;Release;GitHub Release</Configurations>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<Product Condition="'$(TargetFramework)' == 'net48-windows'">KevinComponent net48-windows</Product>
+	<Product Condition="'$(TargetFramework)' == 'netcoreapp3.1'">KevinComponent netCoreApp3.1</Product>
+	<Product Condition="'$(TargetFramework)' == 'net6.0-windows'">KevinComponent net6.0-windows</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48-windows|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net48-windows|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|netcoreapp3.1|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net6.0-windows|AnyCPU'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Operations\" />
+  </ItemGroup>
+
+</Project>
