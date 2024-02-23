@@ -11,13 +11,11 @@ namespace CalculationEngine.Tokens
 		Integer,
 		FloatingPoint,
 		Text,
-		Quote,
-		DoubleQuote,
+		MemberPoint,
+		String,
 		Operation,
-		LeftSquareBracket,
-		RightSquareBracket,
-		LeftRoundBracket,
-		RightRoundBracket,
+		LeftBracket,
+		RightBracket,
 		ArgumentSeparator
 	}
 }
