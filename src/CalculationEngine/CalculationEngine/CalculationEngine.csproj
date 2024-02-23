@@ -40,8 +40,4 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Operations\" />
-  </ItemGroup>
-
 </Project>
