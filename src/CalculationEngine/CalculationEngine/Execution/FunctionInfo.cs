@@ -16,6 +16,7 @@ namespace CalculationEngine.Execution
 			IsOverWritable = isOverWritable;
 			IsDynamicFunc = isDynamicFunc;
 			Function = function;
+			ReturnType = function.Method.ReturnType;
 		}
 
 		public string FunctionName { get; }
@@ -29,5 +30,7 @@ namespace CalculationEngine.Execution
 		public bool IsDynamicFunc { get; }
 
 		public Delegate Function { get; }
+
+		public Type ReturnType { get; }
 	}
 }

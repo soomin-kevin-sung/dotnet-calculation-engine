@@ -61,6 +61,11 @@ namespace CalculationEngine.Tokens
 			return this == (Token)obj;
 		}
 
+		public override int GetHashCode()
+		{
+			return 11254879 ^ StartPosition ^ Length ^ (int)TokenType ^ Value.GetHashCode();
+		}
+
 		#endregion
 	}
 }

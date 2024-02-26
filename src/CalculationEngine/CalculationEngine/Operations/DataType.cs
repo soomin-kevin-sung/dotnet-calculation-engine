@@ -8,8 +8,7 @@ namespace CalculationEngine.Operations
 {
 	public enum DataType
 	{
-		Integer,
-		FloatingPoint,
+		Float,
 		String,
 		Object
 	}

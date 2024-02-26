@@ -8,8 +8,8 @@ namespace CalculationEngine.Operations
 {
 	public class Exponentiation : Operation
 	{
-		public Exponentiation(DataType dataType, Operation arg, Operation exponent)
-			: base(dataType, arg.DependsOnVariables || exponent.DependsOnVariables, arg.IsIdempotent && exponent.IsIdempotent)
+		public Exponentiation(Operation arg, Operation exponent)
+			: base(DataType.Float, arg.DependsOnVariables || exponent.DependsOnVariables, arg.IsIdempotent && exponent.IsIdempotent)
 		{
 			Base = arg;
 			Exponent = exponent;

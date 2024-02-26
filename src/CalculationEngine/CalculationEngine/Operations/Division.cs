@@ -8,8 +8,8 @@ namespace CalculationEngine.Operations
 {
 	public class Division : Operation
 	{
-		public Division(DataType dataType, Operation dividend, Operation divisor)
-			: base(dataType, dividend.DependsOnVariables || divisor.DependsOnVariables, dividend.IsIdempotent && divisor.IsIdempotent)
+		public Division(Operation dividend, Operation divisor)
+			: base(DataType.Float, dividend.DependsOnVariables || divisor.DependsOnVariables, dividend.IsIdempotent && divisor.IsIdempotent)
 		{
 			Dividend = dividend;
 			Divisor = divisor;

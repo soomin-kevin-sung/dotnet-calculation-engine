@@ -9,7 +9,7 @@ namespace CalculationEngine.Operations
 	internal class FloatingConstant : Constant<double>
 	{
 		public FloatingConstant(double value)
-			: base(DataType.FloatingPoint, value)
+			: base(DataType.Float, value)
 		{
 		}
 	}

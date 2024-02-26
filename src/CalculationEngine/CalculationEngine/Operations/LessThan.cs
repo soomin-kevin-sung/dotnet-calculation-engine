@@ -8,8 +8,8 @@ namespace CalculationEngine.Operations
 {
 	public class LessThan : Operation
 	{
-		public LessThan(DataType dataType, Operation arg1, Operation arg2)
-			: base(dataType, arg1.DependsOnVariables || arg2.DependsOnVariables, arg1.IsIdempotent && arg2.IsIdempotent)
+		public LessThan(Operation arg1, Operation arg2)
+			: base(DataType.Float, arg1.DependsOnVariables || arg2.DependsOnVariables, arg1.IsIdempotent && arg2.IsIdempotent)
 		{
 			Argument1 = arg1;
 			Argument2 = arg2;

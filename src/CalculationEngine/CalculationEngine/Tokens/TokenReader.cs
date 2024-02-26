@@ -105,10 +105,8 @@ namespace CalculationEngine.Tokens
 					// After Variables '.'
 					if (chars[i] == '.')
 					{
-						tokens.Add(new Token() { TokenType = TokenType.MemberPoint, Value = chars[i], StartPosition = i, Length = 1 });
-
-						if (IsPartOfVariables(chars[++i], true))
-							i = AddTextToken(tokens, chars, i, ref isFormulaSubPart);
+						if (IsPartOfVariables(chars[i + 1], true))
+							AddMemeberPointToken(tokens, chars, i, ref isFormulaSubPart);
 						else
 							throw new ParseException($"Invalid token \"{chars[i]}\" detected at position {i}.");
 					}
@@ -308,6 +306,20 @@ namespace CalculationEngine.Tokens
 			return i;
 		}
 
+		private int AddMemeberPointToken(List<Token> tokens, char[] chars, int i, ref bool isFormulaSubPart)
+		{
+			var builder = new StringBuilder();
+			builder.Append(chars[i]);
+
+			int startPosition = i;
+
+			while (++i < chars.Length && IsPartOfVariables(chars[i], false))
+				builder.Append(chars[i]);
+
+			tokens.Add(new Token() { TokenType = TokenType.MemberPoint, Value = builder.ToString(), StartPosition = startPosition, Length = i - startPosition });
+			isFormulaSubPart = false;
+			return i;
+		}
 
 		private bool IsPartOfNumeric(char character, bool isFirstCharacter, bool isFormulaSubPart)
 		{

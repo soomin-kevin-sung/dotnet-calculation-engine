@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Operations
 {
-	public class UnaryMinus : Operation
+	public class ReferenceMember : Operation
 	{
-		public UnaryMinus(Operation arg)
-			: base(DataType.Float, arg.DependsOnVariables, arg.IsIdempotent)
+		public ReferenceMember(Operation arg, string memberName)
+			: base(DataType.Object, arg.DependsOnVariables, arg.IsIdempotent)
 		{
 			Argument = arg;
+			MemberName = memberName;
 		}
 
-		public Operation Argument { get; internal set; }
+		public Operation Argument { get; }
+		public string MemberName { get; }
 
 		public override IList<Operation> Arguments => new Operation[] { Argument };
 	}

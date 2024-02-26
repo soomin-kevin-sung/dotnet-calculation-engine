@@ -8,8 +8,8 @@ namespace CalculationEngine.Operations
 {
 	public class ObjectConstant : Constant<object>
 	{
-		public ObjectConstant(DataType dataType, object value)
-			: base(dataType, value)
+		public ObjectConstant(object value)
+			: base(DataType.Object, value)
 		{
 		}
 	}

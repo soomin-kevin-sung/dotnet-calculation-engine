@@ -15,12 +15,18 @@ namespace CalculationEngine.Operations
 			IsIdempotent = isIdempotent;
 		}
 
+		#region Public Properties
+
 		public DataType DataType { get; }
-
 		public bool DependsOnVariables { get; internal set; }
-
 		public bool IsIdempotent { get; internal set; }
 
+		#endregion
+
+		#region Public Abstract Methods
+
 		public abstract IList<Operation> Arguments { get; }
+
+		#endregion
 	}
 }
