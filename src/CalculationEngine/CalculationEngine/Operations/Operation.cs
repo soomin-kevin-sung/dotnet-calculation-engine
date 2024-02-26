@@ -17,9 +17,9 @@ namespace CalculationEngine.Operations
 
 		public DataType DataType { get; }
 
-		public bool DependsOnVariables { get; }
+		public bool DependsOnVariables { get; internal set; }
 
-		public bool IsIdempotent { get; }
+		public bool IsIdempotent { get; internal set; }
 
 		public abstract IList<Operation> Arguments { get; }
 	}
