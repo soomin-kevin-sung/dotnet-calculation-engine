@@ -6,7 +6,44 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Operations
 {
-	public abstract class Constant<T> : Operation
+	public abstract class Constant : Operation
+	{
+		protected Constant(DataType dataType, bool dependsOnVariables, bool isIdempotent)
+			: base(dataType, dependsOnVariables, isIdempotent)
+		{
+		}
+
+		#region Static Members
+
+		#region Public Methods
+
+		public static Constant ValueToConstant(object value)
+		{
+			if (value is string)
+				return new StringConstant((string)value);
+			else if (value is int ||
+					 value is long ||
+					 value is short ||
+					 value is bool)
+				return new FloatingConstant((int)value);
+			else if (value is double ||
+					 value is float)
+				return new FloatingConstant((double)value);
+			else
+				return new ObjectConstant(value);
+		}
+
+		#endregion
+
+		#endregion
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			throw new NotSupportedException();
+		}
+	}
+
+	public abstract class Constant<T> : Constant
 	{
 		public Constant(DataType dataType, T value)
 			: base(dataType, false, true)
@@ -14,9 +51,15 @@ namespace CalculationEngine.Operations
 			Value = value;
 		}
 
+		#region Public Properties
+
 		public T Value { get; private set; }
 
 		public override IList<Operation> Arguments => new Operation[0];
+
+		#endregion
+
+		#region Public Override Methods
 
 		public override bool Equals(object? obj)
 		{
@@ -30,5 +73,7 @@ namespace CalculationEngine.Operations
 		{
 			return Value?.GetHashCode() ?? 0;
 		}
+
+		#endregion
 	}
 }

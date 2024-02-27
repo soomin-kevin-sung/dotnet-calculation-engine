@@ -25,6 +25,13 @@ namespace CalculationEngine.Execution
 
 		#endregion
 
+		#region Public Properties
+
+		public int Count
+			=> _constants.Count;
+
+		#endregion
+
 		#region Public Methods
 
 		public IEnumerator<ConstantInfo> GetEnumerator()

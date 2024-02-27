@@ -19,5 +19,13 @@ namespace CalculationEngine.Operations
 		public Operation Exponent { get; internal set; }
 
 		public override IList<Operation> Arguments => new Operation[] { Base, Exponent };
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(arguments.Count, 2);
+
+			Base = arguments[0];
+			Exponent = arguments[1];
+		}
 	}
 }

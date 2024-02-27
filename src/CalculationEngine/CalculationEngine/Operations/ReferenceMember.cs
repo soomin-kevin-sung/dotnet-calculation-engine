@@ -15,9 +15,16 @@ namespace CalculationEngine.Operations
 			MemberName = memberName;
 		}
 
-		public Operation Argument { get; }
+		public Operation Argument { get; internal set; }
 		public string MemberName { get; }
 
 		public override IList<Operation> Arguments => new Operation[] { Argument };
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(arguments.Count, 1);
+
+			Argument = arguments[0];
+		}
 	}
 }

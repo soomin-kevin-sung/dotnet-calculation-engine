@@ -30,5 +30,10 @@ namespace CalculationEngine.Operations
 		{
 			return Name.GetHashCode();
 		}
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			throw new NotSupportedException();
+		}
 	}
 }

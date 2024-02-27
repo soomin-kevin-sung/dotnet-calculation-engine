@@ -23,9 +23,15 @@ namespace CalculationEngine.Operations
 
 		#endregion
 
-		#region Public Abstract Methods
+		#region Public Abstract Properties
 
 		public abstract IList<Operation> Arguments { get; }
+
+		#endregion
+
+		#region Public Abstract Methods
+
+		public abstract void SetArguments(IList<Operation> arguments);
 
 		#endregion
 	}

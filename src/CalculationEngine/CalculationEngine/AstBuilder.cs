@@ -184,7 +184,7 @@ namespace CalculationEngine
 
 			PopOperations(false, null);
 
-			VerifyResultStack();
+			CheckResultStack();
 
 			return _resultStack.Pop();
 		}
@@ -322,7 +322,7 @@ namespace CalculationEngine
 			}
 		}
 
-		private void VerifyResultStack()
+		private void CheckResultStack()
 		{
 			if (_resultStack.Count > 1)
 			{

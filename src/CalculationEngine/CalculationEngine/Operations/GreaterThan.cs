@@ -19,5 +19,13 @@ namespace CalculationEngine.Operations
 		public Operation Argument2 { get; internal set; }
 
 		public override IList<Operation> Arguments => new Operation[] { Argument1, Argument2 };
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(arguments.Count, 2);
+
+			Argument1 = arguments[0];
+			Argument2 = arguments[1];
+		}
 	}
 }

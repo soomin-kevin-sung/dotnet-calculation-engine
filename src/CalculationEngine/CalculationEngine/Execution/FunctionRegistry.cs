@@ -31,6 +31,15 @@ namespace CalculationEngine.Execution
 
 		#endregion
 
+		#region Public Properties
+
+		public int Count
+			=> _functions.Count;
+
+		#endregion
+
+		#region Public Methods
+
 		public IEnumerator<FunctionInfo> GetEnumerator()
 		{
 			return _functions.Values.GetEnumerator();
@@ -94,6 +103,8 @@ namespace CalculationEngine.Execution
 			if (!_functions.TryAdd(functionName, functionInfo))
 				_functions[functionName] = functionInfo;
 		}
+
+		#endregion
 
 		#region Private Methods
 

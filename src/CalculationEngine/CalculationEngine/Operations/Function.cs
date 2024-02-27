@@ -23,7 +23,7 @@ namespace CalculationEngine.Operations
 
 		public override IList<Operation> Arguments => _arguments;
 
-		internal void SetArguments(IList<Operation> arguments)
+		public override void SetArguments(IList<Operation> arguments)
 		{
 			_arguments = arguments;
 			DependsOnVariables = arguments.FirstOrDefault(o => o.DependsOnVariables) != null;

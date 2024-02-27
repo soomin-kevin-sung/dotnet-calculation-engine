@@ -8,6 +8,8 @@ namespace CalculationEngine.Execution.Interfaces
 {
 	public interface IFunctionRegistry : IEnumerable<FunctionInfo>
 	{
+		int Count { get; }
+
 		FunctionInfo? GetFunctionInfo(string functionName);
 		bool IsFunctionName(string functionName);
 		void RegisterFunction(string functionName, Delegate function);

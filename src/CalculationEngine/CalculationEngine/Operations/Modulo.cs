@@ -19,5 +19,13 @@ namespace CalculationEngine.Operations
 		public Operation Divisor { get; internal set; }
 
 		public override IList<Operation> Arguments => new Operation[] { Dividend, Divisor };
+
+		public override void SetArguments(IList<Operation> arguments)
+		{
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(arguments.Count, 2);
+
+			Dividend = arguments[0];
+			Divisor = arguments[1];
+		}
 	}
 }

@@ -8,6 +8,8 @@ namespace CalculationEngine.Execution.Interfaces
 {
 	public interface IConstantRegistry : IEnumerable<ConstantInfo>
 	{
+		int Count { get; }
+
 		ConstantInfo? GetConstantInfo(string constantName);
 		bool IsConstantName(string constantName);
 		void RegisterConstant(string constantName, object value);
