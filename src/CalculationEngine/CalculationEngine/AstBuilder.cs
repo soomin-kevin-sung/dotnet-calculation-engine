@@ -80,7 +80,7 @@ namespace CalculationEngine
 
 		#region Public Methods
 
-		public Operation Build(IList<Token> tokens)
+		public Operation Build(IEnumerable<Token> tokens)
 		{
 			_resultStack.Clear();
 			_operatorStack.Clear();
@@ -92,6 +92,8 @@ namespace CalculationEngine
 				switch (token.TokenType)
 				{
 					case TokenType.Integer:
+						_resultStack.Push(new FloatingConstant((int)token.Value));
+						break;
 					case TokenType.FloatingPoint:
 						_resultStack.Push(new FloatingConstant((double)token.Value));
 						break;
@@ -140,12 +142,47 @@ namespace CalculationEngine
 						break;
 
 					case TokenType.ArgumentSeparator:
+						PopOperations(false, token);
+						_parameterCount.Push(_parameterCount.Pop() + 1);
 						break;
 
 					case TokenType.Operation:
+						var op1Token = token;
+						var op1 = (char)op1Token.Value;
+
+						while (_operatorStack.Count > 0 &&
+							(_operatorStack.Peek().TokenType == TokenType.Operation || _operatorStack.Peek().TokenType == TokenType.Text))
+						{
+							var op2Token = _operatorStack.Peek();
+							var op2 = (char)op2Token.Value;
+							bool isFunctionOnTopOfStack = op2Token.TokenType == TokenType.Text;
+
+							if (isFunctionOnTopOfStack)
+							{
+								_operatorStack.Pop();
+								_resultStack.Push(ConvertFunction(op2Token));
+							}
+							else
+							{
+								if ((IsLeftAssociativeOperation(op1) && _operationPriority[op1] <= _operationPriority[op2]) ||
+									_operationPriority[op1] < _operationPriority[op2])
+								{
+									_operatorStack.Pop();
+									_resultStack.Push(ConvertOperation(op2Token));
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+
+						_operatorStack.Push(op1Token);
 						break;
 				}
 			}
+
+			PopOperations(false, null);
 
 			VerifyResultStack();
 
@@ -240,9 +277,9 @@ namespace CalculationEngine
 			}
 		}
 
-		private void PopOperations(bool untillLeftBracket, Token? currentToken)
+		private void PopOperations(bool untilLeftBracket, Token? currentToken)
 		{
-			if (untillLeftBracket && !currentToken.HasValue)
+			if (untilLeftBracket && currentToken == null)
 				throw new ArgumentNullException(nameof(currentToken), "If the parameter \"untillLeftBracket\" is set to true, " +
 					"the parameter \"currentToken\" cannot be null.");
 
@@ -252,12 +289,36 @@ namespace CalculationEngine
 				var token = _operatorStack.Pop();
 				switch (token.TokenType)
 				{
+					// operation
 					case TokenType.Operation:
+						_resultStack.Push(ConvertOperation(token));
 						break;
 
+					// function name
 					case TokenType.Text:
+						_resultStack.Push(ConvertFunction(token));
 						break;
 				}
+			}
+
+			if (untilLeftBracket)
+			{
+				// pop left bracket
+				if (_operatorStack.Count > 0 &&
+					_operatorStack.Peek().TokenType == TokenType.LeftBracket)
+					_operatorStack.Pop();
+				else if (currentToken != null)
+					throw new ParseException($"No matching left bracket found for the right bracket at position {currentToken.Value.StartPosition}.");
+				else
+					throw new ArgumentNullException(nameof(currentToken),
+						"If the parameter \"untillLeftBracket\" is set to true, the parameter \"currentToken\" cannot be null.");
+			}
+			else
+			{
+				if (_operatorStack.Count > 0 &&
+					_operatorStack.Peek().TokenType == TokenType.LeftBracket &&
+					currentToken != null && currentToken.Value.TokenType != TokenType.ArgumentSeparator)
+					throw new ParseException($"No matching right bracket found for the left bracket at position {_operatorStack.Peek().StartPosition}.");
 			}
 		}
 
@@ -285,6 +346,11 @@ namespace CalculationEngine
 
 				throw new ParseException("The syntax of the provided formula is not valid.");
 			}
+		}
+
+		private bool IsLeftAssociativeOperation(char character)
+		{
+			return character == '*' || character == '+' || character == '-' || character == '/';
 		}
 
 		private DataType GetDataTypeFromType(Type type)

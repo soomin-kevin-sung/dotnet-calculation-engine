@@ -106,9 +106,13 @@ namespace CalculationEngine.Tokens
 					if (chars[i] == '.')
 					{
 						if (IsPartOfVariables(chars[i + 1], true))
-							AddMemeberPointToken(tokens, chars, i, ref isFormulaSubPart);
+							i = AddMemeberPointToken(tokens, chars, i, ref isFormulaSubPart);
 						else
 							throw new ParseException($"Invalid token \"{chars[i]}\" detected at position {i}.");
+
+						// Last character read
+						if (i == chars.Length)
+							continue;
 					}
 				}
 

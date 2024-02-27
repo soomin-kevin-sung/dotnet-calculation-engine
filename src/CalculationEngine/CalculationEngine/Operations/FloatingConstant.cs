@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Operations
 {
-	internal class FloatingConstant : Constant<double>
+	public class FloatingConstant : Constant<double>
 	{
 		public FloatingConstant(double value)
 			: base(DataType.Float, value)
