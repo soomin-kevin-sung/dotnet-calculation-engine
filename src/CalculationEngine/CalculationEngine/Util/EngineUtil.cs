@@ -33,5 +33,28 @@ namespace CalculationEngine.Util
 
 			return buffer.ToString();
 		}
+
+		internal static bool IsNumericValue(object value)
+		{
+			return IsIntegerValue(value) || IsFloatingValue(value);
+		}
+
+		internal static bool IsIntegerValue(object value)
+		{
+			return value is int ||
+				value is long ||
+				value is short ||
+				value is bool;
+		}
+
+		internal static bool IsFloatingValue(object value)
+		{
+			return value is float || value is double;
+		}
+
+		internal static bool IsStringValue(object value)
+		{
+			return value is string;
+		}
 	}
 }

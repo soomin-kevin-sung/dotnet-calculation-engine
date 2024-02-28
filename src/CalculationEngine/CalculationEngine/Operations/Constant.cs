@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalculationEngine.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,15 +20,11 @@ namespace CalculationEngine.Operations
 
 		public static Constant ValueToConstant(object value)
 		{
-			if (value is string)
+			if (EngineUtil.IsStringValue(value))
 				return new StringConstant((string)value);
-			else if (value is int ||
-					 value is long ||
-					 value is short ||
-					 value is bool)
+			else if (EngineUtil.IsIntegerValue(value))
 				return new FloatingConstant((int)value);
-			else if (value is double ||
-					 value is float)
+			else if (EngineUtil.IsFloatingValue(value))
 				return new FloatingConstant((double)value);
 			else
 				return new ObjectConstant(value);
