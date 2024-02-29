@@ -16,13 +16,20 @@ namespace CalculationEngine.Execution
 	public class Interpreter : IExecutor
 	{
 		public Interpreter()
-			: this(false)
+			: this(null, false)
 		{
 
 		}
 
 		public Interpreter(bool caseSensitive)
+			: this(null, caseSensitive)
 		{
+
+		}
+
+		public Interpreter(PropertyConnector? memberConnector, bool caseSensitive)
+		{
+			_memberConnector = memberConnector;
 			_caseSensitive = caseSensitive;
 			_executeDict = new() {
 				{ typeof(FloatingConstant), OnFloatingConstantExecute },
@@ -45,12 +52,14 @@ namespace CalculationEngine.Execution
 				{ typeof(Equal), OnEqualThanExecute },
 				{ typeof(NotEqual), OnNotEqualThanExecute },
 				{ typeof(Function), OnFunctionExecute },
+				{ typeof(ReferenceObjectProperty), OnReferenceObjectPropertyExecute }
 			};
 		}
 
 		#region Private Variables
 
 		readonly Dictionary<Type, Func<Operation, IFunctionRegistry, IConstantRegistry, IDictionary<string, object>, object>> _executeDict;
+		readonly PropertyConnector? _memberConnector;
 		readonly bool _caseSensitive;
 
 		#endregion
@@ -301,6 +310,18 @@ namespace CalculationEngine.Execution
 				ops[i] = Execute(args[i], functionRegistry, constantRegistry, variables);
 			
 			return functionInfo.Invoke(ops);
+		}
+
+		private object OnReferenceObjectPropertyExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IDictionary<string, object> variables)
+		{
+			if (_memberConnector == null)
+				return 0.0;
+
+			var referenceObjectProperty = (ReferenceObjectProperty)operation;
+			var arg1 = Execute(referenceObjectProperty.Argument, functionRegistry, constantRegistry, variables) ??
+				throw new ArgumentException($"Argument is null on {operation.GetType()} operation.", nameof(operation));
+
+			return _memberConnector.GetPropertyValue(arg1, referenceObjectProperty.MemberName);
 		}
 
 		#endregion

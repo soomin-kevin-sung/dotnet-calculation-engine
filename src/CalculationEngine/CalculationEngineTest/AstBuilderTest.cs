@@ -172,7 +172,7 @@ namespace CalculationEngineTest
 			var expectedOperatorTypes = new Type[]
 			{
 				typeof(Subtraction), // 1 - P1.Offset
-				typeof(ReferenceMember), // P1.Offset
+				typeof(ReferenceObjectProperty), // P1.Offset
 				typeof(FloatingConstant), // 1
 				typeof(Variable) // P1
 			};

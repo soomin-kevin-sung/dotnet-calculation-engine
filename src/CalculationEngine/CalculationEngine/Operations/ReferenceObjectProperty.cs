@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Operations
 {
-	public class ReferenceMember : Operation
+	public class ReferenceObjectProperty : Operation
 	{
-		public ReferenceMember(Operation arg, string memberName)
+		public ReferenceObjectProperty(Operation arg, string memberName)
 			: base(DataType.Object, arg.DependsOnVariables, arg.IsIdempotent)
 		{
 			Argument = arg;

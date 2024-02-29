@@ -98,7 +98,7 @@ namespace CalculationEngine
 						break;
 
 					case TokenType.MemberPoint:
-						_resultStack.Push(new ReferenceMember(_resultStack.Pop(), (string)token.Value));
+						_resultStack.Push(new ReferenceObjectProperty(_resultStack.Pop(), (string)token.Value));
 						break;
 
 					case TokenType.Text:

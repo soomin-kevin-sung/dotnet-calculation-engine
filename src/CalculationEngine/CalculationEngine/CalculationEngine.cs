@@ -45,9 +45,9 @@ namespace CalculationEngine
 #warning For Test
 			options.ExecutionMode = ExecutionMode.Interpreted;
 			if (options.ExecutionMode == ExecutionMode.Interpreted)
-				_executor = new Interpreter(_caseSensitive);
+				_executor = new Interpreter(options.PropertyConnector, _caseSensitive);
 			else
-				_executor = new Interpreter(_caseSensitive);
+				_executor = new Interpreter(options.PropertyConnector, _caseSensitive);
 
 			// set optimizer
 			_optimizer = new Optimizer(new Interpreter());

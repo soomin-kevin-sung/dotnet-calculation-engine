@@ -70,5 +70,10 @@ namespace CalculationEngine
 		/// Enable or disable the default constants.
 		/// </summary>
 		public bool DefaultConstants { get; set; }
+
+		/// <summary>
+		/// PropertyConnector for Calculate Property Value.
+		/// </summary>
+		public PropertyConnector? PropertyConnector { get; set; }
 	}
 }
