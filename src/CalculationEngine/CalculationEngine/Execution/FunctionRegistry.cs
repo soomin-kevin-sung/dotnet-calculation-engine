@@ -1,4 +1,5 @@
-﻿using CalculationEngine.Execution.Interfaces;
+﻿using CalculationEngine.Execution.FunctionInfos;
+using CalculationEngine.Execution.Interfaces;
 using CalculationEngine.Util;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Execution
 {
-	public class FunctionRegistry : IFunctionRegistry
+    public class FunctionRegistry : IFunctionRegistry
 	{
 		public FunctionRegistry(bool caseSensitive)
 		{
@@ -61,45 +62,25 @@ namespace CalculationEngine.Execution
 			return _functions.ContainsKey(ConvertFunctionName(functionName));
 		}
 
-		public void RegisterFunction(string functionName, Delegate function)
+		public void RegisterFunction(FunctionInfo functionInfo)
 		{
-			RegisterFunction(functionName, function, true, true);
-		}
-
-		public void RegisterFunction(string functionName, Delegate function, bool isIdempotent, bool isOverWritable)
-		{
-			ArgumentException.ThrowIfNullOrEmpty(functionName);
-			ArgumentNullException.ThrowIfNull(function);
-
-			var funcType = function.GetType();
-			ArgumentException.ThrowIfNullOrEmpty(funcType.FullName);
-
-			bool isDynFunc = false;
-			int numOfParams = -1;
-
-			if (funcType.FullName.StartsWith("System.Func"))
-				numOfParams = function.GetMethodInfo().GetParameters().Length;
-			else if (funcType.FullName.StartsWith(DynamicFuncTypeName))
-				isDynFunc = true;
-			else
-				throw new ArgumentException("Only System.Func and " + DynamicFuncTypeName + " delegates are permitted.", nameof(function));
+			ArgumentNullException.ThrowIfNull(functionInfo);
 
 			// convert name by caseSensitive
-			functionName = ConvertFunctionName(functionName);
+			var functionName = ConvertFunctionName(functionInfo.FunctionName);
 
 			// check the function is valid.
 			if (_functions.ContainsKey(functionName))
 			{
 				if (!_functions[functionName].IsOverWritable)
 					throw new Exception($"The function \"{functionName}\" cannot be overwriten.");
-				if (_functions[functionName].NumberOfParameters != numOfParams)
+				if (_functions[functionName].NumberOfParameters != functionInfo.NumberOfParameters)
 					throw new Exception("The number of parameters cannot be changed when overwriting a method.");
-				if (_functions[functionName].IsDynamicFunc != isDynFunc)
+				if (_functions[functionName].IsDynamicFunc != functionInfo.IsDynamicFunc)
 					throw new Exception("A Func can only be overwritten by another Func and a DynamicFunc can only be overwritten by another DynamicFunc.");
 			}
 
 			// add function to _functions.
-			var functionInfo = new FunctionInfo(functionName, numOfParams, isIdempotent, isOverWritable, isDynFunc, function);
 			if (!_functions.TryAdd(functionName, functionInfo))
 				_functions[functionName] = functionInfo;
 		}

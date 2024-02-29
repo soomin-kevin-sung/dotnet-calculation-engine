@@ -34,6 +34,23 @@ namespace CalculationEngine.Util
 			return buffer.ToString();
 		}
 
+		internal static  bool ConvertToDouble(object value, out double result)
+		{
+			if (IsFloatingValue(value))
+			{
+				result = (double)value;
+				return true;
+			}
+			else if (IsIntegerValue(value))
+			{
+				result = (int)value;
+				return true;
+			}
+
+			result = 0;
+			return false;
+		}
+
 		internal static bool IsNumericValue(object value)
 		{
 			return IsIntegerValue(value) || IsFloatingValue(value);

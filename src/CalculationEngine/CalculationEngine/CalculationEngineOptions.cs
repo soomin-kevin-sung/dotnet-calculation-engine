@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalculationEngine.Execution;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace CalculationEngine
 		public CalculationEngineOptions()
 		{
 			CultureInfo = CultureInfo.CurrentCulture;
+			ExecutionMode = ExecutionMode.Compiled;
 			CacheEnabled = true;
 			OptimizerEnabled = true;
 			CaseSensitive = false;
@@ -28,6 +30,11 @@ namespace CalculationEngine
 		/// The <see cref="CultureInfo"/> required for correctly reading floating poin numbers.
 		/// </summary>
 		public CultureInfo CultureInfo { get; set; }
+
+		/// <summary>
+		/// The execution mode that must be used for formula execution.
+		/// </summary>
+		public ExecutionMode ExecutionMode { get; set; }
 
 		/// <summary>
 		/// Enable or disable caching of mathematical formulas.

@@ -1,5 +1,6 @@
 ﻿using CalculationEngine;
 using CalculationEngine.Execution;
+using CalculationEngine.Execution.FunctionInfos;
 using CalculationEngine.Operations;
 using CalculationEngine.Tokens;
 using System;
@@ -123,7 +124,7 @@ namespace CalculationEngineTest
 			var formula = "if (var1 == 1, \"dsadfe dsafed12312+04095_)()(\", \"NO\")";
 
 			// act
-			functions.RegisterFunction("if", new Func<double, double, double, double>((a, b, c) => a != 0 ? b : c), true, false);
+			functions.RegisterFunction(new If());
 			var tokens = tokenReader.Read(formula);
 			var op = astBuilder.Build(tokens);
 

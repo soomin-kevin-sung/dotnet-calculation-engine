@@ -88,7 +88,6 @@ namespace CalculationEngine
 
 			foreach (var token in tokens)
 			{
-				var value = token.Value;
 				switch (token.TokenType)
 				{
 					case TokenType.Integer:
@@ -121,7 +120,7 @@ namespace CalculationEngine
 							// if variable
 							else
 							{
-								if (_caseSensitive)
+								if (!_caseSensitive)
 									tokenValue = tokenValue.ToLowerFast();
 								
 								_resultStack.Push(new Variable(tokenValue));
@@ -255,9 +254,6 @@ namespace CalculationEngine
 
 				var functionInfo = _functionRegistry.GetFunctionInfo(functionName) ?? throw new ArgumentNullException($"Not exist FunctionInfo : {functionName}");
 				int numOfParams = _parameterCount.Pop();
-				if (!functionInfo.IsDynamicFunc)
-					numOfParams = functionInfo.NumberOfParameters;
-
 				var operations = new List<Operation>();
 				for (int i = 0; i < numOfParams; i++)
 					operations.Add(_resultStack.Pop());

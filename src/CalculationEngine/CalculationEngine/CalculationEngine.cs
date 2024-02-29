@@ -1,4 +1,5 @@
 ﻿using CalculationEngine.Execution;
+using CalculationEngine.Execution.FunctionInfos;
 using CalculationEngine.Execution.Interfaces;
 using CalculationEngine.Operations;
 using CalculationEngine.Tokens;
@@ -6,10 +7,12 @@ using CalculationEngine.Util;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Random = CalculationEngine.Execution.FunctionInfos.Random;
+using SystemRandom = System.Random;
 
 namespace CalculationEngine
 {
-	public class CalculationEngine
+    public class CalculationEngine
 	{
 		public CalculationEngine()
 			: this(new CalculationEngineOptions())
@@ -36,13 +39,18 @@ namespace CalculationEngine
 			_caseSensitive = options.CaseSensitive;
 
 			// random
-			_random = new Random();
+			_random = new SystemRandom();
 
 			// set executor
-			_executor = null;
+#warning For Test
+			options.ExecutionMode = ExecutionMode.Interpreted;
+			if (options.ExecutionMode == ExecutionMode.Interpreted)
+				_executor = new Interpreter(_caseSensitive);
+			else
+				_executor = new Interpreter(_caseSensitive);
 
 			// set optimizer
-			_optimizer = new Optimizer(null);
+			_optimizer = new Optimizer(new Interpreter());
 
 			// register defautl constants
 			if (options.DefaultConstants)
@@ -61,7 +69,7 @@ namespace CalculationEngine
 		readonly bool _cacheEnabled;
 		readonly bool _optimizerEnabled;
 		readonly bool _caseSensitive;
-		readonly Random _random;
+		readonly SystemRandom _random;
 		readonly IExecutor _executor;
 		readonly Optimizer _optimizer;
 
@@ -123,34 +131,34 @@ namespace CalculationEngine
 
 		private void RegisterDefaultFunctions()
 		{
-			FunctionRegistry.RegisterFunction("sin", Math.Sin, true, false);
-			FunctionRegistry.RegisterFunction("cos", Math.Cos, true, false);
-			FunctionRegistry.RegisterFunction("csc", MathUtil.Csc, true, false);
-			FunctionRegistry.RegisterFunction("sec", MathUtil.Sec, true, false);
-			FunctionRegistry.RegisterFunction("asin", Math.Asin, true, false);
-			FunctionRegistry.RegisterFunction("acos", Math.Acos, true, false);
-			FunctionRegistry.RegisterFunction("tan", Math.Tan, true, false);
-			FunctionRegistry.RegisterFunction("cot", MathUtil.Cot, true, false);
-			FunctionRegistry.RegisterFunction("atan", Math.Atan, true, false);
-			FunctionRegistry.RegisterFunction("acot", MathUtil.Acot, true, false);
-			FunctionRegistry.RegisterFunction("loge", (double a) => Math.Log(a), true, false);
-			FunctionRegistry.RegisterFunction("log10", Math.Log10, true, false);
-			FunctionRegistry.RegisterFunction("logn", (double a, double b) => Math.Log(a, b), true, false);
-			FunctionRegistry.RegisterFunction("sqrt", Math.Sqrt, true, false);
-			FunctionRegistry.RegisterFunction("abs", (double a) => Math.Abs(a), true, false);
-			FunctionRegistry.RegisterFunction("if", (double a, object b, object c) => a != 0.0 ? b : c, true, false);
-			FunctionRegistry.RegisterFunction("ceiling", (double a) => Math.Ceiling(a), true, false);
-			FunctionRegistry.RegisterFunction("floor", (double a) => Math.Floor(a), true, false);
-			FunctionRegistry.RegisterFunction("truncate", (double a) => Math.Truncate(a), true, false);
-			FunctionRegistry.RegisterFunction("round", (double a) => Math.Round(a), true, false);
+			FunctionRegistry.RegisterFunction(new Sin());
+			FunctionRegistry.RegisterFunction(new Cos());
+			FunctionRegistry.RegisterFunction(new Csc());
+			FunctionRegistry.RegisterFunction(new Sec());
+			FunctionRegistry.RegisterFunction(new Asin());
+			FunctionRegistry.RegisterFunction(new Acos());
+			FunctionRegistry.RegisterFunction(new Tan());
+			FunctionRegistry.RegisterFunction(new Cot());
+			FunctionRegistry.RegisterFunction(new Atan());
+			FunctionRegistry.RegisterFunction(new Acot());
+			FunctionRegistry.RegisterFunction(new Loge());
+			FunctionRegistry.RegisterFunction(new Log10());
+			FunctionRegistry.RegisterFunction(new Logn());
+			FunctionRegistry.RegisterFunction(new Sqrt());
+			FunctionRegistry.RegisterFunction(new Abs());
+			FunctionRegistry.RegisterFunction(new If());
+			FunctionRegistry.RegisterFunction(new Ceiling());
+			FunctionRegistry.RegisterFunction(new Floor());
+			FunctionRegistry.RegisterFunction(new Truncate());
+			FunctionRegistry.RegisterFunction(new Round());
 
 			// Dynamic based arguments Functions
-			FunctionRegistry.RegisterFunction("max", (DynamicFunc<double, double>)((a) => a.Max()), true, false);
-			FunctionRegistry.RegisterFunction("min", (DynamicFunc<double, double>)((a) => a.Min()), true, false);
-			FunctionRegistry.RegisterFunction("avg", (DynamicFunc<double, double>)((a) => a.Average()), true, false);
+			FunctionRegistry.RegisterFunction(new Max());
+			FunctionRegistry.RegisterFunction(new Min());
+			FunctionRegistry.RegisterFunction(new Average());
 
 			// Non Idempotent Functions
-			FunctionRegistry.RegisterFunction("random", _random.NextDouble, false, false);
+			FunctionRegistry.RegisterFunction(new Random(_random));
 		}
 
 		private bool IsInFormulaCache(string formulaText, ConstantRegistry? compiledConstants, [NotNullWhen(true)] out Func<IDictionary<string, object>, object>? compiledFunction)
