@@ -23,14 +23,14 @@ namespace CalculationEngine
 
 		#region Public Methods
 
-		public Operation Optimize(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry)
+		public Operation Optimize(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector)
 		{
 			// can optimize to constant
 			if (!operation.DependsOnVariables &&
 				operation.IsIdempotent &&
 				!typeof(Constant<>).IsAssignableFrom(operation.GetType()))
 			{
-				var result = _executor.Execute(operation, functionRegistry, constantRegistry);
+				var result = _executor.Execute(operation, functionRegistry, constantRegistry, propertyConnector);
 				return Constant.ValueToConstant(result);
 			}
 			else
@@ -38,7 +38,7 @@ namespace CalculationEngine
 				var arguments = operation.Arguments;
 				if (arguments.Count > 0)
 				{
-					var optimizedArguments = operation.Arguments.Select(a => Optimize(a, functionRegistry, constantRegistry)).ToList();
+					var optimizedArguments = operation.Arguments.Select(a => Optimize(a, functionRegistry, constantRegistry, propertyConnector)).ToList();
 					operation.SetArguments(optimizedArguments);
 				}
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalculationEngine.Util
+namespace CalculationEngine.Execution
 {
-	public delegate TResult DynamicFunc<T, TResult>(params T[] values);
+	public delegate PropertyConnector PropertyConnectorFactory(bool caseSensitve);
 }

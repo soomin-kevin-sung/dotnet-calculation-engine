@@ -1,4 +1,5 @@
 ﻿using CalculationEngine;
+using CalculationEngineTest.TestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,31 @@ namespace CalculationEngineTest
 			// assert
 			Assert.True(answer is string);
 			Assert.Equal("SUCCESS", (string)answer);
+		}
+
+		[Fact]
+		public void ReferenceObjectPropertyFormulaTest()
+		{
+			// arrange
+			var options = new CalculationEngineOptions()
+			{
+				PropertyConnectorFactory = caseSensitive => new TestPropertyConnector(caseSensitive)
+			};
+			var engine = new Engine(options);
+			var variables = new Dictionary<string, object>()
+			{
+				{ "p1", new TestPoint("A", 0, 1) },
+				{ "p2", new TestPoint("B", 1.25, -2.56) },
+				{ "Code", "A" }
+			};
+
+			// act
+			var answer = engine.Calculate("p1.x + p2.y", variables);
+			var answer2 = engine.Calculate("if ( Code == p1.Name, \"True\", \"False\")", variables);
+
+			// assert
+			Assert.Equal(-2.56, answer);
+			Assert.Equal("True", answer2);
 		}
 	}
 }

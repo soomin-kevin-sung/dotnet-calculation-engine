@@ -1,4 +1,5 @@
-﻿using CalculationEngine.Util;
+﻿using CalculationEngine.Execution.Interfaces;
+using CalculationEngine.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalculationEngine.Execution
 {
-	public abstract class PropertyConnector
+	public abstract class PropertyConnector : IPropertyConnector
 	{
 		protected PropertyConnector(bool caseSensitive)
 		{
@@ -22,7 +23,7 @@ namespace CalculationEngine.Execution
 
 		#region Protected Abstract Methods
 
-		protected abstract object? GetPropertyValueInternal(object target, string propertyName);
+		protected abstract object? OnGetPropertyValue(object target, string propertyName);
 
 		#endregion
 
@@ -30,7 +31,8 @@ namespace CalculationEngine.Execution
 
 		public object? GetPropertyValue(object target, string propertyName)
 		{
-			return GetPropertyValueInternal(target, ConvertPropertyName(propertyName));
+			ArgumentException.ThrowIfNullOrEmpty(propertyName);
+			return OnGetPropertyValue(target, ConvertPropertyName(propertyName));
 		}
 
 		#endregion

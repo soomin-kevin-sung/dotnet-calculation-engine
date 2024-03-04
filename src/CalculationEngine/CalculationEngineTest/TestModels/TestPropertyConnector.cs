@@ -13,15 +13,15 @@ namespace CalculationEngineTest.TestModels
 		{
 		}
 
-		protected override object? GetPropertyValueInternal(object target, string memberName)
+		protected override object? OnGetPropertyValue(object target, string propertyName)
         {
             if (target is TestPoint testPoint)
             {
-                if (memberName == ConvertPropertyName(".Name"))
+                if (propertyName.Equals(ConvertPropertyName(".Name")))
                     return testPoint.Name;
-                else if (memberName == ConvertPropertyName(".X"))
+                else if (propertyName.Equals(ConvertPropertyName(".X")))
                     return testPoint.X;
-				else if (memberName == ConvertPropertyName(".X"))
+				else if (propertyName.Equals(ConvertPropertyName(".Y")))
 					return testPoint.Y;
 			}
 

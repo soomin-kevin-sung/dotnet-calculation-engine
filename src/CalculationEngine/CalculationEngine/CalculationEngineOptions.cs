@@ -21,6 +21,7 @@ namespace CalculationEngine
 			DefaultConstants = true;
 			CacheMaximumSize = DefaultCacheMaximumSize;
 			CacheReductionSize = DefaultCacheReductionSize;
+			PropertyConnectorFactory = null;
 		}
 
 		internal const int DefaultCacheMaximumSize = 500;
@@ -72,8 +73,8 @@ namespace CalculationEngine
 		public bool DefaultConstants { get; set; }
 
 		/// <summary>
-		/// PropertyConnector for Calculate Property Value.
+		/// PropertyConnectorFactory for PropertyConnector.
 		/// </summary>
-		public PropertyConnector? PropertyConnector { get; set; }
+		public PropertyConnectorFactory? PropertyConnectorFactory { get; set; }
 	}
 }

@@ -31,6 +31,8 @@ namespace CalculationEngine
 			// functions and constants are not always caseSensitive.
 			FunctionRegistry = new FunctionRegistry(false);
 			ConstantRegistry = new ConstantRegistry(false);
+			if (options.PropertyConnectorFactory != null)
+				PropertyConnector = options.PropertyConnectorFactory(options.CaseSensitive);
 
 			// options
 			_cultureInfo = options.CultureInfo;
@@ -45,9 +47,9 @@ namespace CalculationEngine
 #warning For Test
 			options.ExecutionMode = ExecutionMode.Interpreted;
 			if (options.ExecutionMode == ExecutionMode.Interpreted)
-				_executor = new Interpreter(options.PropertyConnector, _caseSensitive);
+				_executor = new Interpreter(_caseSensitive);
 			else
-				_executor = new Interpreter(options.PropertyConnector, _caseSensitive);
+				_executor = new Interpreter(_caseSensitive);
 
 			// set optimizer
 			_optimizer = new Optimizer(new Interpreter());
@@ -80,6 +82,8 @@ namespace CalculationEngine
 		internal FunctionRegistry FunctionRegistry { get; }
 
 		internal ConstantRegistry ConstantRegistry { get; }
+
+		internal PropertyConnector? PropertyConnector { get; }
 
 		#endregion
 
@@ -189,7 +193,7 @@ namespace CalculationEngine
 			var operation = astBuilder.Build(tokens);
 
 			if (_optimizerEnabled)
-				return _optimizer.Optimize(operation, FunctionRegistry, ConstantRegistry);
+				return _optimizer.Optimize(operation, FunctionRegistry, ConstantRegistry, PropertyConnector);
 			else
 				return operation;
 		}
@@ -198,7 +202,7 @@ namespace CalculationEngine
 		{
 			return _executionFormulaCache.GetOrAdd(
 				GenerateFormulaCacheKey(formulaText, compiledConstants),
-				v => _executor.BuildFormula(operation, FunctionRegistry, ConstantRegistry));
+				v => _executor.BuildFormula(operation, FunctionRegistry, ConstantRegistry, PropertyConnector));
 		}
 
 		private void CheckVariableNames(IDictionary<string, object> variables)
