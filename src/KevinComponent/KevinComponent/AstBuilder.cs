@@ -57,9 +57,9 @@ namespace KevinComponent
 				{ '&', () => new And(_resultStack.Pop(), _resultStack.Pop()) },
 				{ '|', () => new Or(_resultStack.Pop(), _resultStack.Pop()) },
 				{ '<', () => new GreaterThan(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '≤', () => new GreaterOrEqualThan(_resultStack.Pop(), _resultStack.Pop()) },
+				{ '≤', () => new GreaterThanOrEqual(_resultStack.Pop(), _resultStack.Pop()) },
 				{ '>', () => new LessThan(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '≥', () => new LessOrEqualThan(_resultStack.Pop(), _resultStack.Pop()) },
+				{ '≥', () => new LessThanOrEqual(_resultStack.Pop(), _resultStack.Pop()) },
 				{ '=', () => new Equal(_resultStack.Pop(), _resultStack.Pop()) },
 				{ '≠', () => new NotEqual(_resultStack.Pop(), _resultStack.Pop()) },
 			};

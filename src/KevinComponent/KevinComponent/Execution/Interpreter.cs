@@ -39,9 +39,9 @@ namespace KevinComponent.Execution
 				{ typeof(And), OnAndExecute },
 				{ typeof(Or), OnOrExecute },
 				{ typeof(LessThan), OnLessThanExecute },
-				{ typeof(LessOrEqualThan), OnLessOrEqualThanExecute },
+				{ typeof(LessThanOrEqual), OnLessThanOrEqualExecute },
 				{ typeof(GreaterThan), OnGreaterThanExecute },
-				{ typeof(GreaterOrEqualThan), OnGreaterOrEqualThanExecute },
+				{ typeof(GreaterThanOrEqual), OnGreaterThanOrEqualExecute },
 				{ typeof(Equal), OnEqualThanExecute },
 				{ typeof(NotEqual), OnNotEqualThanExecute },
 				{ typeof(Function), OnFunctionExecute },
@@ -207,7 +207,7 @@ namespace KevinComponent.Execution
 					return 1.0;
 			}
 
-			return 0.0;
+			throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
 		}
 
 		private object OnOrExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
@@ -221,7 +221,7 @@ namespace KevinComponent.Execution
 			if (EngineUtil.ConvertToDouble(arg2, out var v2) && v2 == 1)
 				return 1.0;
 
-			return 0.0;
+			throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
 		}
 
 		private object OnLessThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
@@ -236,11 +236,11 @@ namespace KevinComponent.Execution
 				throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
 		}
 
-		private object OnLessOrEqualThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
+		private object OnLessThanOrEqualExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
-			var lessOrEqualThan = (LessOrEqualThan)operation;
-			var arg1 = Execute(lessOrEqualThan.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
-			var arg2 = Execute(lessOrEqualThan.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
+			var lessThanOrEqual = (LessThanOrEqual)operation;
+			var arg1 = Execute(lessThanOrEqual.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
+			var arg2 = Execute(lessThanOrEqual.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
 
 			if (EngineUtil.ConvertToDouble(arg1, out var v1) && EngineUtil.ConvertToDouble(arg2, out var v2))
 				return v1 <= v2 ? 1.0 : 0.0;
@@ -260,11 +260,11 @@ namespace KevinComponent.Execution
 				throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
 		}
 
-		private object OnGreaterOrEqualThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
+		private object OnGreaterThanOrEqualExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
-			var greaterOrEqualThan = (GreaterOrEqualThan)operation;
-			var arg1 = Execute(greaterOrEqualThan.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
-			var arg2 = Execute(greaterOrEqualThan.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
+			var greaterThanOrEqual = (GreaterThanOrEqual)operation;
+			var arg1 = Execute(greaterThanOrEqual.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
+			var arg2 = Execute(greaterThanOrEqual.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
 
 			if (EngineUtil.ConvertToDouble(arg1, out var v1) && EngineUtil.ConvertToDouble(arg2, out var v2))
 				return v1 >= v2 ? 1.0 : 0.0;

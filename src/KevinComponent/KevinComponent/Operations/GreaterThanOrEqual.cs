@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KevinComponent.Operations
 {
-	public class GreaterOrEqualThan : Operation
+	public class GreaterThanOrEqual : Operation
 	{
-		public GreaterOrEqualThan(Operation arg1, Operation arg2)
+		public GreaterThanOrEqual(Operation arg1, Operation arg2)
 			: base(DataType.Float, arg1.DependsOnVariables || arg2.DependsOnVariables, arg1.IsIdempotent && arg2.IsIdempotent)
 		{
 			Argument1 = arg1;
