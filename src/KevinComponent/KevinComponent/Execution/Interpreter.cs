@@ -42,8 +42,8 @@ namespace KevinComponent.Execution
 				{ typeof(LessThanOrEqual), OnLessThanOrEqualExecute },
 				{ typeof(GreaterThan), OnGreaterThanExecute },
 				{ typeof(GreaterThanOrEqual), OnGreaterThanOrEqualExecute },
-				{ typeof(Equal), OnEqualThanExecute },
-				{ typeof(NotEqual), OnNotEqualThanExecute },
+				{ typeof(Equal), OnEqualExecute },
+				{ typeof(NotEqual), OnNotEqualExecute },
 				{ typeof(Function), OnFunctionExecute },
 				{ typeof(ReferenceObjectProperty), OnReferenceObjectPropertyExecute }
 			};
@@ -200,11 +200,23 @@ namespace KevinComponent.Execution
 		{
 			var and = (And)operation;
 			var arg1 = Execute(and.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
-			if (EngineUtil.ConvertToDouble(arg1, out var v1) && v1 == 1)
+			if (EngineUtil.ConvertToDouble(arg1, out var v1))
 			{
-				var arg2 = Execute(and.Argument2, functionRegistry,  constantRegistry, propertyConnector);
-				if (EngineUtil.ConvertToDouble(arg2, out var v2) && v2 == 1)
-					return 1.0;
+				if (v1 == 1)
+				{
+					var arg2 = Execute(and.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
+					if (EngineUtil.ConvertToDouble(arg2, out var v2))
+					{
+						if (v2 == 1)
+							return 1.0;
+						else
+							return 0.0;
+					}
+				}
+				else
+				{
+					return 0.0;
+				}
 			}
 
 			throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
@@ -214,14 +226,28 @@ namespace KevinComponent.Execution
 		{
 			var or = (Or)operation;
 			var arg1 = Execute(or.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
-			if (EngineUtil.ConvertToDouble(arg1, out var v1) && v1 == 1)
-				return 1.0;
+			if (EngineUtil.ConvertToDouble(arg1, out var v1))
+			{
+				if (v1 == 1)
+					return 1.0;
+			}
+			else
+			{
+				throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
+			}
 
 			var arg2 = Execute(or.Argument2, functionRegistry, constantRegistry, propertyConnector, variables);
-			if (EngineUtil.ConvertToDouble(arg2, out var v2) && v2 == 1)
-				return 1.0;
+			if (EngineUtil.ConvertToDouble(arg2, out var v2))
+			{
+				if (v2 == 1)
+					return 1.0;
+			}
+			else
+			{
+				throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
+			}
 
-			throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
+			return 0.0;
 		}
 
 		private object OnLessThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
@@ -272,7 +298,7 @@ namespace KevinComponent.Execution
 				throw new ArgumentException($"Wrong argument type on {operation.GetType()} operation.", nameof(operation));
 		}
 
-		private object OnEqualThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
+		private object OnEqualExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
 			var equal = (Equal)operation;
 			var arg1 = Execute(equal.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);
@@ -281,7 +307,7 @@ namespace KevinComponent.Execution
 			return Equals(arg1, arg2) ? 1.0 : 0.0;
 		}
 
-		private object OnNotEqualThanExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
+		private object OnNotEqualExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
 			var notEqual = (NotEqual)operation;
 			var arg1 = Execute(notEqual.Argument1, functionRegistry, constantRegistry, propertyConnector, variables);

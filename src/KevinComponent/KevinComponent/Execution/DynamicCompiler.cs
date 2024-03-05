@@ -104,44 +104,26 @@ namespace KevinComponent.Execution
 			throw new ArgumentException($"Unsupported operation \"{operation.GetType().FullName}\".", nameof(operation));
 		}
 
-		//{ typeof(Addition), OnAdditionExecute },
-		//{ typeof(Subtraction), OnSubtractionExecute },
-		//{ typeof(Multiplication), OnMultiplicationExecute },
-		//{ typeof(Division), OnDivisionExecute },
-		//{ typeof(Modulo), OnModuloExecute },
-		//{ typeof(Exponentiation), OnExponentiationExecute },
-		//{ typeof(UnaryMinus), OnUnaryMinusExecute },
-		//{ typeof(And), OnAndExecute },
-		//{ typeof(Or), OnOrExecute },
-		//{ typeof(LessThan), OnLessThanExecute },
-		//{ typeof(LessOrEqualThan), OnLessOrEqualThanExecute },
-		//{ typeof(GreaterThan), OnGreaterThanExecute },
-		//{ typeof(GreaterOrEqualThan), OnGreaterOrEqualThanExecute },
-		//{ typeof(Equal), OnEqualThanExecute },
-		//{ typeof(NotEqual), OnNotEqualThanExecute },
-		//{ typeof(Function), OnFunctionExecute },
-		//{ typeof(ReferenceObjectProperty), OnReferenceObjectPropertyExecute }
-
 		private Expression OnFloatingConstantGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
-			return Expression.Constant(((FloatingConstant)operation).Value, typeof(double));
+			return CreateObjectExpression(((FloatingConstant)operation).Value);
 		}
 
 		private Expression OnStringConstantGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
-			return Expression.Constant(((StringConstant)operation).Value, typeof(string));
+			return CreateObjectExpression(((StringConstant)operation).Value);
 		}
 
 		private Expression OnObjectConstantGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
-			return Expression.Constant(((ObjectConstant)operation).Value, typeof(object));
+			return CreateObjectExpression(((ObjectConstant)operation).Value);
 		}
 
 		private Expression OnVariableGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
 			var variable = (Variable)operation;
 			var func = PrecompiledMethods.GetVariableValueOrThrow;
-			return Expression.Call(null, func.GetMethodInfo(), Expression.Constant(variable.Name), contextParameter);
+			return Expression.Call(null, func.GetMethodInfo(), contextParameter, Expression.Constant(variable.Name));
 		}
 
 		private Expression OnAdditionGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -150,7 +132,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(addition.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(addition.Argument2, contextParameter);
 
-			return Expression.Add(arg1, arg2);
+			var func = PrecompiledMethods.Add;
+			return Expression.Call(null, func.GetMethodInfo(), arg1, arg2);
 		}
 
 		private Expression OnSubtractionGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -168,7 +151,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(multiplication.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(multiplication.Argument2, contextParameter);
 
-			return Expression.Multiply(arg1, arg2);
+			var func = PrecompiledMethods.Multiply;
+			return Expression.Call(null, func.GetMethodInfo(), arg1, arg2);
 		}
 
 		private Expression OnDivisionGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -177,7 +161,8 @@ namespace KevinComponent.Execution
 			var dividend = GenerateMethodBody(division.Dividend, contextParameter);
 			var divisor = GenerateMethodBody(division.Divisor, contextParameter);
 
-			return Expression.Multiply(dividend, divisor);
+			var func = PrecompiledMethods.Multiply;
+			return Expression.Call(null, func.GetMethodInfo(), dividend, divisor);
 		}
 
 		private Expression OnModuloGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -186,7 +171,8 @@ namespace KevinComponent.Execution
 			var dividend = GenerateMethodBody(modulo.Dividend, contextParameter);
 			var divisor = GenerateMethodBody(modulo.Divisor, contextParameter);
 
-			return Expression.Modulo(dividend, divisor);
+			var func = PrecompiledMethods.Modulo;
+			return Expression.Call(null, func.GetMethodInfo(), dividend, divisor);
 		}
 
 		private Expression OnExponentiationGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -195,9 +181,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(exponentiation.Base, contextParameter);
 			var arg2 = GenerateMethodBody(exponentiation.Exponent, contextParameter);
 
-			var powMethod = typeof(Math).GetRuntimeMethod("Pow", [typeof(double), typeof(double)])
-				?? throw new ArgumentNullException("cannot find \"Math.Pow\" Method");
-			return Expression.Call(null, powMethod, arg1, arg2);
+			var func = PrecompiledMethods.Pow;
+			return Expression.Call(null, func.GetMethodInfo(), arg1, arg2);
 		}
 
 		private Expression OnUnaryMinusGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -205,25 +190,28 @@ namespace KevinComponent.Execution
 			var unaryMinus = (UnaryMinus)operation;
 			var arg = GenerateMethodBody(unaryMinus.Argument, contextParameter);
 
-			return Expression.Negate(arg);
+			var func = PrecompiledMethods.Negate;
+			return Expression.Call(null, func.GetMethodInfo(), arg);
 		}
 
 		private Expression OnAndGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
 			var and = (And)operation;
-			var arg1 = GenerateMethodBody(and.Argument1, contextParameter);
-			var arg2 = GenerateMethodBody(and.Argument2, contextParameter);
+			var func = PrecompiledMethods.NotEqual;
+			var arg1 = Expression.Call(null, func.GetMethodInfo(), GenerateMethodBody(and.Argument1, contextParameter), CreateObjectExpression(0.0));
+			var arg2 = Expression.Call(null, func.GetMethodInfo(), GenerateMethodBody(and.Argument2, contextParameter), CreateObjectExpression(0.0));
 
-			return Expression.Condition(Expression.And(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.And(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnOrGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
 			var or = (Or)operation;
-			var arg1 = GenerateMethodBody(or.Argument1, contextParameter);
-			var arg2 = GenerateMethodBody(or.Argument2, contextParameter);
+			var func = PrecompiledMethods.NotEqual;
+			var arg1 = Expression.Call(null, func.GetMethodInfo(), GenerateMethodBody(or.Argument1, contextParameter), CreateObjectExpression(0.0));
+			var arg2 = Expression.Call(null, func.GetMethodInfo(), GenerateMethodBody(or.Argument2, contextParameter), CreateObjectExpression(0.0));
 
-			return Expression.Condition(Expression.Or(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.Or(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnLessThanGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -232,7 +220,7 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(lessThan.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(lessThan.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.LessThan(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.LessThan(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnLessThanOrEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -241,7 +229,7 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(lessThanOrEqual.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(lessThanOrEqual.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.LessThanOrEqual(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.LessThanOrEqual(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnGreaterThanGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -250,7 +238,7 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(greaterThan.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(greaterThan.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.GreaterThan(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.GreaterThan(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnGreaterThanOrEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -259,7 +247,7 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(greaterThanOrEqual.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(greaterThanOrEqual.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.GreaterThanOrEqual(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			return Expression.Condition(Expression.GreaterThanOrEqual(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -268,7 +256,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(equal.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(equal.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.Equal(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			var func = PrecompiledMethods.Equal;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnNotEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -277,18 +266,14 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(notEqual.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(notEqual.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.NotEqual(arg1, arg2), Expression.Constant(1.0), Expression.Constant(0.0));
+			var func = PrecompiledMethods.NotEqual;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnFunctionGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
 			var function = (Function)operation;
-			var expFunctionRegistry = Expression.Property(contextParameter, "FunctionRegistry");
-			var getFunctionInfoMI = typeof(IFunctionRegistry).GetMethod("GetFunctionInfo");
-			ArgumentNullException.ThrowIfNull(getFunctionInfoMI);
-
-			// get functionInfo Expression
-			var expFunctionInfo = Expression.Call(expFunctionRegistry, getFunctionInfoMI, Expression.Constant(function.FunctionName));
+			var invokeFunc = PrecompiledMethods.InvokeFunction;
 
 			// convert arguments to expressions
 			var args = function.Arguments;
@@ -296,11 +281,12 @@ namespace KevinComponent.Execution
 			for (int i = 0; i < args.Count; i++)
 				exps[i] = GenerateMethodBody(args[i], contextParameter);
 
-			// get FunctionInfo.Invoke MEthodInfo
-			var invokeMI = typeof(FunctionInfo).GetMethod("Invoke", [typeof(object[])]);
-			ArgumentNullException.ThrowIfNull(invokeMI);
-
-			return Expression.Call(expFunctionInfo, invokeMI, exps);
+			return Expression.Call(
+				null,
+				invokeFunc.GetMethodInfo(),
+				contextParameter,
+				Expression.Constant(function.FunctionName),
+				Expression.NewArrayInit(typeof(object), exps));
 		}
 
 		private Expression OnReferenceObjectPropertyGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -312,6 +298,11 @@ namespace KevinComponent.Execution
 
 			var arg = GenerateMethodBody(referenceObjectProperty.Argument, contextParameter);
 			return Expression.Call(expPropertyConnector, getPropertyValueMI, arg, Expression.Constant(referenceObjectProperty.PropertyName));
+		}
+
+		private Expression CreateObjectExpression(object value)
+		{
+			return Expression.Constant(value, typeof(object));
 		}
 
 		#endregion
