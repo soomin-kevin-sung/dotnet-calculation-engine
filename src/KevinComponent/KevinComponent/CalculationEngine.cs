@@ -44,12 +44,10 @@ namespace KevinComponent
 			_random = new Random();
 
 			// set executor
-#warning For Test
-			options.ExecutionMode = ExecutionMode.Interpreted;
 			if (options.ExecutionMode == ExecutionMode.Interpreted)
 				_executor = new Interpreter(_caseSensitive);
 			else
-				_executor = new Interpreter(_caseSensitive);
+				_executor = new DynamicCompiler(_caseSensitive);
 
 			// set optimizer
 			_optimizer = new Optimizer(new Interpreter());

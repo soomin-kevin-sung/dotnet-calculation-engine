@@ -306,14 +306,13 @@ namespace KevinComponent.Execution
 
 		private object OnReferenceObjectPropertyExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
-			if (propertyConnector == null)
-				return 0.0;
+			ArgumentNullException.ThrowIfNull(propertyConnector);
 
 			var referenceObjectProperty = (ReferenceObjectProperty)operation;
 			var arg1 = Execute(referenceObjectProperty.Argument, functionRegistry, constantRegistry, propertyConnector, variables) ??
 				throw new ArgumentException($"Argument is null on {operation.GetType()} operation.", nameof(operation));
 
-			return propertyConnector.GetPropertyValue(arg1, referenceObjectProperty.MemberName) ?? 0.0;
+			return propertyConnector.GetPropertyValue(arg1, referenceObjectProperty.PropertyName) ?? 0.0;
 		}
 
 		#endregion

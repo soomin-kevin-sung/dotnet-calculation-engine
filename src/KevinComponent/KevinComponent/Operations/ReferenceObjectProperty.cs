@@ -8,15 +8,15 @@ namespace KevinComponent.Operations
 {
 	public class ReferenceObjectProperty : Operation
 	{
-		public ReferenceObjectProperty(Operation arg, string memberName)
+		public ReferenceObjectProperty(Operation arg, string propertyName)
 			: base(DataType.Object, arg.DependsOnVariables, arg.IsIdempotent)
 		{
 			Argument = arg;
-			MemberName = memberName;
+			PropertyName = propertyName;
 		}
 
 		public Operation Argument { get; internal set; }
-		public string MemberName { get; }
+		public string PropertyName { get; }
 
 		public override IList<Operation> Arguments => new Operation[] { Argument };
 
