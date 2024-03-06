@@ -28,7 +28,7 @@ namespace KevinComponent.Tokens
 
 		static TokenReader()
 		{
-			Operators = new HashSet<char>()
+			OperatorsSet = new HashSet<char>()
 			{
 				' ', '+', '-', '*', '/',
 				'^', '%', '!', '&', '|',
@@ -38,12 +38,18 @@ namespace KevinComponent.Tokens
 			};
 		}
 
+		#region Public Properties
+
+		public static char[] OperatorCharacters => OperatorsSet.ToArray();
+
+		#endregion
+
 		#region Internal Properties
 
 		/// <summary>
 		/// Operators
 		/// </summary>
-		internal static HashSet<char> Operators { get; }
+		internal static HashSet<char> OperatorsSet { get; }
 
 		#endregion
 
@@ -339,7 +345,7 @@ namespace KevinComponent.Tokens
 			if (isFirstCharacter && IsNumericCharacter(character))
 				return false;
 
-			return !Operators.Contains(character);
+			return !OperatorsSet.Contains(character);
 		}
 
 		private bool IsNumericCharacter(char item)
