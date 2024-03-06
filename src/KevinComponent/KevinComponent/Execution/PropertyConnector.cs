@@ -31,7 +31,7 @@ namespace KevinComponent.Execution
 
 		public object? GetPropertyValue(object target, string propertyName)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(propertyName);
+			ExceptionUtil.ThrowIfNullOrEmpty(propertyName);
 			return OnGetPropertyValue(target, ConvertPropertyName(propertyName));
 		}
 

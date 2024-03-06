@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KevinComponent.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace KevinComponent.Operations
 
 		public override void SetArguments(IList<Operation> arguments)
 		{
-			ArgumentOutOfRangeException.ThrowIfGreaterThan(arguments.Count, 2);
+			ExceptionUtil.ThrowIfGreaterThan(arguments.Count, 2);
 
 			Dividend = arguments[0];
 			Divisor = arguments[1];

@@ -96,7 +96,7 @@ namespace KevinComponent.Execution
 
 		private Expression GenerateMethodBody(Operation operation, ParameterExpression contextParameter)
 		{
-			ArgumentNullException.ThrowIfNull(operation);
+			ExceptionUtil.ThrowIfNull(operation);
 
 			if (_generateMethodBodyDict.TryGetValue(operation.GetType(), out var generateMethodBody))
 				return generateMethodBody(operation, contextParameter);
@@ -294,7 +294,7 @@ namespace KevinComponent.Execution
 			var referenceObjectProperty = (ReferenceObjectProperty)operation;
 			var expPropertyConnector = Expression.Property(contextParameter, "PropertyConnector");
 			var getPropertyValueMI = typeof(IPropertyConnector).GetMethod("GetPropertyValue");
-			ArgumentNullException.ThrowIfNull(getPropertyValueMI);
+			ExceptionUtil.ThrowIfNull(getPropertyValueMI);
 
 			var arg = GenerateMethodBody(referenceObjectProperty.Argument, contextParameter);
 			return Expression.Call(expPropertyConnector, getPropertyValueMI, arg, Expression.Constant(referenceObjectProperty.PropertyName));

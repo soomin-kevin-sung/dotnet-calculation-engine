@@ -104,8 +104,8 @@ namespace KevinComponent
 
 		public object? Calculate(string formulaText, IDictionary<string, object> variables)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(formulaText);
-			ArgumentNullException.ThrowIfNull(variables);
+			ExceptionUtil.ThrowIfNullOrEmpty(formulaText);
+			ExceptionUtil.ThrowIfNull(variables);
 
 			if (!_caseSensitive)
 				variables = EngineUtil.ConvertVariableNamesToLowerCase(variables);

@@ -38,12 +38,12 @@ namespace KevinComponent.Tokens
 			};
 		}
 
-		#region Public Properties
+		#region Internal Properties
 
 		/// <summary>
 		/// Operators
 		/// </summary>
-		public static IReadOnlySet<char> Operators { get; }
+		internal static HashSet<char> Operators { get; }
 
 		#endregion
 
@@ -278,7 +278,7 @@ namespace KevinComponent.Tokens
 			}
 			else
 			{
-				if (double.TryParse(s, CultureInfo, out double doubleValue))
+				if (double.TryParse(s, NumberStyles.Number | NumberStyles.AllowThousands, CultureInfo, out double doubleValue))
 				{
 					tokens.Add(new Token() { TokenType = TokenType.FloatingPoint, Value = doubleValue, StartPosition = startPosition, Length = i - startPosition });
 					isScientific = false;
@@ -351,7 +351,7 @@ namespace KevinComponent.Tokens
 		{
 			if (currentToken == '-')
 			{
-				Token previousToken = tokens[^1];
+				Token previousToken = tokens[tokens.Count - 1];
 
 				return !(previousToken.TokenType == TokenType.FloatingPoint ||
 						 previousToken.TokenType == TokenType.Integer ||

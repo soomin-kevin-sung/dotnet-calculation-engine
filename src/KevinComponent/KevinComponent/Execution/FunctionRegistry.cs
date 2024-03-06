@@ -64,7 +64,7 @@ namespace KevinComponent.Execution
 
 		public void RegisterFunction(FunctionInfo functionInfo)
 		{
-			ArgumentNullException.ThrowIfNull(functionInfo);
+			ExceptionUtil.ThrowIfNull(functionInfo);
 
 			// convert name by caseSensitive
 			var functionName = ConvertFunctionName(functionInfo.FunctionName);
@@ -74,15 +74,17 @@ namespace KevinComponent.Execution
 			{
 				if (!_functions[functionName].IsOverWritable)
 					throw new Exception($"The function \"{functionName}\" cannot be overwriten.");
-				if (_functions[functionName].NumberOfParameters != functionInfo.NumberOfParameters)
+				else if (_functions[functionName].NumberOfParameters != functionInfo.NumberOfParameters)
 					throw new Exception("The number of parameters cannot be changed when overwriting a method.");
-				if (_functions[functionName].IsDynamicFunc != functionInfo.IsDynamicFunc)
+				else if (_functions[functionName].IsDynamicFunc != functionInfo.IsDynamicFunc)
 					throw new Exception("A Func can only be overwritten by another Func and a DynamicFunc can only be overwritten by another DynamicFunc.");
-			}
 
-			// add function to _functions.
-			if (!_functions.TryAdd(functionName, functionInfo))
 				_functions[functionName] = functionInfo;
+			}
+			else
+			{
+				_functions.Add(functionName, functionInfo);
+			}
 		}
 
 		#endregion

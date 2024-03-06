@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net48;netcoreapp3.1;net8.0</TargetFrameworks>
+	<LangVersion>10.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<BaseOutputPath>bin</BaseOutputPath>
@@ -11,12 +12,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-	<Product Condition="'$(TargetFramework)' == 'net48-windows'">KevinComponent net48-windows</Product>
+	<Product Condition="'$(TargetFramework)' == 'net48'">KevinComponent net48</Product>
 	<Product Condition="'$(TargetFramework)' == 'netcoreapp3.1'">KevinComponent netCoreApp3.1</Product>
-	<Product Condition="'$(TargetFramework)' == 'net6.0-windows'">KevinComponent net6.0-windows</Product>
+	<Product Condition="'$(TargetFramework)' == 'net8.0'">KevinComponent net8.0</Product>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48-windows|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
@@ -24,11 +25,11 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net48-windows|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net48|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
@@ -36,7 +37,7 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net6.0-windows|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net8.0|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
 

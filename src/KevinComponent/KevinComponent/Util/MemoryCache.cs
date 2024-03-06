@@ -13,8 +13,8 @@ namespace KevinComponent.Util
 	{
 		public MemoryCache(int maximumSize, int reductionSize)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(maximumSize, 1);
-			ArgumentOutOfRangeException.ThrowIfLessThan(reductionSize, 1);
+			ExceptionUtil.ThrowIfLessThan(maximumSize, 1);
+			ExceptionUtil.ThrowIfLessThan(reductionSize, 1);
 
 			_maximumSize = maximumSize;
 			_reductionSize = reductionSize;
@@ -69,7 +69,7 @@ namespace KevinComponent.Util
 
 		public TValue GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
 		{
-			ArgumentNullException.ThrowIfNull(valueFactory);
+			ExceptionUtil.ThrowIfNull(valueFactory);
 
 			var item = _dict.GetOrAdd(key, k =>
 			{

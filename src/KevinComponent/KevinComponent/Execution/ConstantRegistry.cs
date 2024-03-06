@@ -41,13 +41,13 @@ namespace KevinComponent.Execution
 
 		public ConstantInfo? GetConstantInfo(string constantName)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(constantName);
+			ExceptionUtil.ThrowIfNullOrEmpty(constantName);
 			return _constants.TryGetValue(ConvertConstantName(constantName), out var constantInfo) ? constantInfo : null;
 		}
 
 		public bool IsConstantName(string constantName)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(constantName);
+			ExceptionUtil.ThrowIfNullOrEmpty(constantName);
 			return _constants.ContainsKey(ConvertConstantName(constantName));
 		}
 
@@ -58,17 +58,22 @@ namespace KevinComponent.Execution
 
 		public void RegisterConstant(string constantName, object value, bool isOverWritable)
 		{
-			ArgumentException.ThrowIfNullOrEmpty(constantName);
+			ExceptionUtil.ThrowIfNullOrEmpty(constantName);
 
 			constantName = ConvertConstantName(constantName);
-
-			if (_constants.ContainsKey(constantName) &&
-				_constants[constantName].IsOverWritable)
-				throw new Exception($"The constant \"{constantName}\" cannot be overwriten.");
-
 			var constantInfo = new ConstantInfo(constantName, value, isOverWritable);
-			if (!_constants.TryAdd(constantName, constantInfo))
+
+			if (_constants.ContainsKey(constantName))
+			{
+				if (_constants[constantName].IsOverWritable)
+					throw new Exception($"The constant \"{constantName}\" cannot be overwriten.");
+
 				_constants[constantName] = constantInfo;
+			}
+			else
+			{
+				_constants.Add(constantName, constantInfo);
+			}	
 		}
 
 		#endregion

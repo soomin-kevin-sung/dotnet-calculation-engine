@@ -1,4 +1,5 @@
 ﻿using KevinComponent.Execution.Interfaces;
+using KevinComponent.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace KevinComponent.Execution.FunctionInfos
 
 		public object Invoke(object[] args)
 		{
-			ArgumentNullException.ThrowIfNull(nameof(args));
+			ExceptionUtil.ThrowIfNull(nameof(args));
 			if (!IsDynamicFunc && args.Length != NumberOfParameters)
 				throw new ArgumentException($"There must be {NumberOfParameters} Parameters", nameof(args));
 

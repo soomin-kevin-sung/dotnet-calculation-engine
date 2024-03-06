@@ -29,7 +29,7 @@ namespace KevinComponent.Execution
 			{
 				var functionRegistry = context.FunctionRegistry;
 				var functionInfo = functionRegistry.GetFunctionInfo(functionName);
-				ArgumentNullException.ThrowIfNull(functionInfo);
+				ExceptionUtil.ThrowIfNull(functionInfo);
 
 				return functionInfo.Invoke(args);
 			}

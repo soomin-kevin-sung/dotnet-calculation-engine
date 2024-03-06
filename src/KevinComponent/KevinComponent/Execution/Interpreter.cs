@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,7 +76,7 @@ namespace KevinComponent.Execution
 
 		public object Execute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
-			ArgumentNullException.ThrowIfNull(operation);
+			ExceptionUtil.ThrowIfNull(operation);
 			var operationType = operation.GetType();
 			if (_executeDict.TryGetValue(operationType, out var func))
 				return func(operation, functionRegistry, constantRegistry, propertyConnector, variables);
@@ -320,7 +319,7 @@ namespace KevinComponent.Execution
 		{
 			var function = (Function)operation;
 			var functionInfo = functionRegistry.GetFunctionInfo(function.FunctionName);
-			ArgumentNullException.ThrowIfNull(functionInfo);
+			ExceptionUtil.ThrowIfNull(functionInfo);
 
 			var args = function.Arguments;
 			var ops = new object[args.Count];
@@ -332,7 +331,7 @@ namespace KevinComponent.Execution
 
 		private object OnReferenceObjectPropertyExecute(Operation operation, IFunctionRegistry functionRegistry, IConstantRegistry constantRegistry, IPropertyConnector? propertyConnector, IDictionary<string, object> variables)
 		{
-			ArgumentNullException.ThrowIfNull(propertyConnector);
+			ExceptionUtil.ThrowIfNull(propertyConnector);
 
 			var referenceObjectProperty = (ReferenceObjectProperty)operation;
 			var arg1 = Execute(referenceObjectProperty.Argument, functionRegistry, constantRegistry, propertyConnector, variables) ??

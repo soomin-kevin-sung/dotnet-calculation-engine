@@ -17,7 +17,7 @@ namespace KevinComponent
 	{
 		public AstBuilder(IFunctionRegistry functionRegistry, bool caseSensitive, IConstantRegistry? compliedConstants = null)
 		{
-			ArgumentNullException.ThrowIfNull(functionRegistry);
+			ExceptionUtil.ThrowIfNull(functionRegistry);
 			_functionRegistry = functionRegistry;
 			_localConstantRegistry = compliedConstants ?? new ConstantRegistry(caseSensitive);
 			_caseSensitive = caseSensitive;
