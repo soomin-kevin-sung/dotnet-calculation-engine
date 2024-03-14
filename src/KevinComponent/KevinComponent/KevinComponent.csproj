@@ -15,6 +15,7 @@
 	<Product Condition="'$(TargetFramework)' == 'net48'">KevinComponent net48</Product>
 	<Product Condition="'$(TargetFramework)' == 'netcoreapp3.1'">KevinComponent netCoreApp3.1</Product>
 	<Product Condition="'$(TargetFramework)' == 'net8.0'">KevinComponent net8.0</Product>
+	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
