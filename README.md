@@ -33,7 +33,7 @@ CalculationEngine is utlitiy for caculating formulas. It's inspired by [Jace.NET
             public double Y { get; set; }
         }
         ```
-    * Implement Custom PropertyConnector
+    * Implement PropertyConnector
         ```csharp
         public class TestPropertyConnector : PropertyConnector
         {
@@ -57,7 +57,7 @@ CalculationEngine is utlitiy for caculating formulas. It's inspired by [Jace.NET
             }
         }
         ```
-    * Calculate with Object Property
+    * Calculate with Custom Class and Properties.
         ```csharp
         var engine = new CalculationEngine(new CalculationEngineOptions()
         {
