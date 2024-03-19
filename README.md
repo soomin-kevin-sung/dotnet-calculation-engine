@@ -1,5 +1,14 @@
 # CaculationEngine
 
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat)&nbsp;
+![.NET](https://img.shields.io/badge/.NET-Framework%204.8-512BD4?style=flat)&nbsp;
+![.NET](https://img.shields.io/badge/.NET-CoreApp%203.1-512BD4?style=flat)&nbsp;
+<br>
+[![CodeFactor](https://www.codefactor.io/repository/github/soomin-kevin-sung/dotnet-calculation-engine/badge)](https://www.codefactor.io/repository/github/soomin-kevin-sung/dotnet-calculation-engine)&nbsp;
+[![License](https://img.shields.io/github/license/soomin-kevin-sung/dotnet-calculation-engine)](LICENSE.md)&nbsp;
+![C#](https://img.shields.io/badge/.NET-C%23-007396?style=flat)&nbsp;
+![WPF](https://img.shields.io/badge/WPF-DataGrid-FF9900?style=flat)&nbsp;
+
 CalculationEngine is utlitiy for caculating formulas. It's inspired by [Jace.NET](https://github.com/pieterderycke/Jace), and some code was taken from [Jace.NET](https://github.com/pieterderycke/Jace).
 
 ## Difference with [Jace.NET](https://github.com/pieterderycke/Jace)
