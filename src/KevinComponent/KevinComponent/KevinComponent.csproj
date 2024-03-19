@@ -18,7 +18,7 @@
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
 	<PackageId>CalculationEngine</PackageId>
 	<Title>CalculationEngine</Title>
-	<Version>1.0.0</Version>
+	<Version>1.0.0.0</Version>
 	<Authors>KevinSung</Authors>
 	<Description>CalculationEngine is utlitiy for caculating formulas. It's inspired by Jace.NET, and some code was taken from Jace.NET.</Description>
 	<Copyright>Copyright © 2024 KevinSung</Copyright>
@@ -29,6 +29,7 @@
 	<PackageReleaseNotes>.net 8.0, .net48, .netcoreapp3.1 supported.</PackageReleaseNotes>
 	<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
 	<FileVersion>$(VersionPrefix)</FileVersion>
+	<PackageTags>C#;.Net;.NetCore;Free;OpenSource;Variable;Expression;Formula;VB;Utility</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
