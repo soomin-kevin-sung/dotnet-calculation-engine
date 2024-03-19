@@ -16,6 +16,19 @@
 	<Product Condition="'$(TargetFramework)' == 'netcoreapp3.1'">KevinComponent netCoreApp3.1</Product>
 	<Product Condition="'$(TargetFramework)' == 'net8.0'">KevinComponent net8.0</Product>
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
+	<PackageId>CalculationEngine</PackageId>
+	<Title>CalculationEngine</Title>
+	<Version>1.0.0</Version>
+	<Authors>KevinSung</Authors>
+	<Description>CalculationEngine is utlitiy for caculating formulas. It's inspired by Jace.NET, and some code was taken from Jace.NET.</Description>
+	<Copyright>Copyright © 2024 KevinSung</Copyright>
+	<PackageProjectUrl>https://github.com/soomin-kevin-sung/dotnet-calculation-engine</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/soomin-kevin-sung/dotnet-calculation-engine</RepositoryUrl>
+	<RepositoryType>GitHub</RepositoryType>
+	<PackageReleaseNotes>.net 8.0, .net48, .netcoreapp3.1 supported.</PackageReleaseNotes>
+	<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+	<FileVersion>$(VersionPrefix)</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
@@ -41,5 +54,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net8.0|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
