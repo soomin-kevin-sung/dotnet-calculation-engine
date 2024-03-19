@@ -10,7 +10,7 @@
 
 CalculationEngine is utlitiy for caculating formulas. It's inspired by [Jace.NET](https://github.com/pieterderycke/Jace), and some code was taken from [Jace.NET](https://github.com/pieterderycke/Jace).
 
-## Difference with [Jace.NET](https://github.com/pieterderycke/Jace)
+## Features
 * The CalculationEngine can calculate object
     - Calculating String Constant And Variable
         ```csharp
