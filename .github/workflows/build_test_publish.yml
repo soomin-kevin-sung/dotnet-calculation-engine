@@ -10,18 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SOLUTION_PATH : src/KevinComponent/KevinComponent.sln
-      TEST_PROJECT_PATH : src/KevinComponent/KevinComponent.Test.CalculationEngineTest/KevinComponent.Test.CalculationEngineTest.csproj
-      NUGET_PATH :  src/KevinComponent/bin/Release/*.nupkg
+      SOLUTION_PATH : ./src/KevinComponent/KevinComponent.sln
+      TEST_PROJECT_PATH : ./src/KevinComponent/KevinComponent.Test.CalculationEngineTest/KevinComponent.Test.CalculationEngineTest.csproj
+      NUGET_PATH :  ./src/KevinComponent/KevinComponent/bin/Release/*.nupkg
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Test directory
-      run: |
-        ls -al
-        pwd
 
     # Install the .NET Core workload
     - name: Install .NET Core
