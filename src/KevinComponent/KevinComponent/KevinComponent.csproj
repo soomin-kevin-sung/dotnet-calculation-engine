@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 	<BaseOutputPath>bin</BaseOutputPath>
 	<BaseIntermediateOutputPath>obj</BaseIntermediateOutputPath>
-	<Configurations>Debug;Release;GitHub Release</Configurations>
+	<Configurations>Debug;Release</Configurations>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -17,10 +17,10 @@
 	<Product Condition="'$(TargetFramework)' == 'net8.0'">KevinComponent net8.0</Product>
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
 	<PackageId>CalculationEngine</PackageId>
-	<Title>CalculationEngine</Title>
+	<Title>CalculationEngine is a useful tool for calculating complex formulas.</Title>
 	<Version>1.0.0.0</Version>
 	<Authors>KevinSung</Authors>
-	<Description>CalculationEngine is utlitiy for caculating formulas. It's inspired by Jace.NET, and some code was taken from Jace.NET.</Description>
+	<Description>CalculationEngine is a useful tool for calculating complex formulas.</Description>
 	<Copyright>Copyright © 2024 KevinSung</Copyright>
 	<PackageProjectUrl>https://github.com/soomin-kevin-sung/dotnet-calculation-engine</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -30,6 +30,7 @@
 	<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
 	<FileVersion>$(VersionPrefix)</FileVersion>
 	<PackageTags>C#;.Net;.NetCore;Free;OpenSource;Variable;Expression;Formula;VB;Utility</PackageTags>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
@@ -44,20 +45,8 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net48|AnyCPU'">
-	<Optimize>True</Optimize>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|netcoreapp3.1|AnyCPU'">
-	<Optimize>True</Optimize>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GitHub Release|net8.0|AnyCPU'">
-	<Optimize>True</Optimize>
-  </PropertyGroup>
-
   <ItemGroup>
-    <None Include="..\..\README.md">
+    <None Include="..\..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

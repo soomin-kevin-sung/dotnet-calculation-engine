@@ -220,7 +220,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(lessThan.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(lessThan.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.LessThan(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
+			var func = PrecompiledMethods.LessThan;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnLessThanOrEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -229,7 +230,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(lessThanOrEqual.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(lessThanOrEqual.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.LessThanOrEqual(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
+			var func = PrecompiledMethods.LessThanOrEqual;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnGreaterThanGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -238,7 +240,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(greaterThan.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(greaterThan.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.GreaterThan(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
+			var func = PrecompiledMethods.GreaterThan;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnGreaterThanOrEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)
@@ -247,7 +250,8 @@ namespace KevinComponent.Execution
 			var arg1 = GenerateMethodBody(greaterThanOrEqual.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(greaterThanOrEqual.Argument2, contextParameter);
 
-			return Expression.Condition(Expression.GreaterThanOrEqual(arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
+			var func = PrecompiledMethods.GreaterThanOrEqual;
+			return Expression.Condition(Expression.Call(null, func.GetMethodInfo(), arg1, arg2), CreateObjectExpression(1.0), CreateObjectExpression(0.0));
 		}
 
 		private Expression OnEqualGenerateMethodBody(Operation operation, ParameterExpression contextParameter)

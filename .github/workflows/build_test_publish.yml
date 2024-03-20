@@ -1,0 +1,46 @@
+name: Build, Test and Publish
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SOLUTION_PATH : src/KevinComponent/KevinComponent.sln
+      TEST_PROJECT_PATH : src/KevinComponent/KevinComponent.Test.CalculationEngineTest/KevinComponent.Test.CalculationEngineTest.csproj
+      NUGET_PATH :  src/KevinComponent/bin/Release/*.nupkg
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    # Build
+    - name: Build Solution
+      run: dotnet build $SOLUTION_FILE -c "Release"
+
+    # Test
+    - name: Run Test Project
+      run: dotnet test $TEST_PROJECT_PATH
+
+    # Publish To NuGet
+    - name: Packaging and Publish
+      run: dotnet nuget push "$NUGET_PATH" --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
+    # Publish To GitHub Repository
+    - name: Publish to GitHub Repository
+      run: |
+        dotnet nuget add source --username "soomin-kevin-sung" --password ${{secrets.ACCESSTOKEN}} --store-password-in-clear-text --name "github" "https://nuget.pkg.github.com/soomin-kevin-sung/index.json"
+        dotnet nuget push "$NUGET_FILE" --api-key ${{secrets.ACCESS_TOKEN}} --source "github" --skip-duplicate
+
+
+

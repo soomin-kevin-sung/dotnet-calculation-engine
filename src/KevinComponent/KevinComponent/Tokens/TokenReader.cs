@@ -88,7 +88,7 @@ namespace KevinComponent.Tokens
 			bool isScientific = false;
 
 			for (int i = 0; i < chars.Length; i++)
-			{
+			                                                                                                                                                                                    {
 				// numeric
 				if (IsPartOfNumeric(chars[i], true, isFormulaSubPart))
 				{
@@ -284,7 +284,7 @@ namespace KevinComponent.Tokens
 			}
 			else
 			{
-				if (double.TryParse(s, NumberStyles.Number | NumberStyles.AllowThousands, CultureInfo, out double doubleValue))
+				if (double.TryParse(s, NumberStyles.Any, CultureInfo, out double doubleValue))
 				{
 					tokens.Add(new Token() { TokenType = TokenType.FloatingPoint, Value = doubleValue, StartPosition = startPosition, Length = i - startPosition });
 					isScientific = false;

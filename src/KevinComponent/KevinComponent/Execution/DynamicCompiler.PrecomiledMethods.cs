@@ -58,12 +58,12 @@ namespace KevinComponent.Execution
 					throw new ArgumentException($"Wrong argument type on {nameof(Multiply)} method.");
 			}
 
-			public static object Divied(object dividend, object divisor)
+			public static object Divide(object dividend, object divisor)
 			{
 				if (EngineUtil.ConvertToDouble(dividend, out var v1) && EngineUtil.ConvertToDouble(divisor, out var v2))
 					return v1 / v2;
 				else
-					throw new ArgumentException($"Wrong argument type on {nameof(Divied)} method.");
+					throw new ArgumentException($"Wrong argument type on {nameof(Divide)} method.");
 			}
 
 			public static object Modulo(object dividend, object divisor)
@@ -71,7 +71,7 @@ namespace KevinComponent.Execution
 				if (EngineUtil.ConvertToDouble(dividend, out var v1) && EngineUtil.ConvertToDouble(divisor, out var v2))
 					return v1 % v2;
 				else
-					throw new ArgumentException($"Wrong argument type on {nameof(Divied)} method.");
+					throw new ArgumentException($"Wrong argument type on {nameof(Divide)} method.");
 			}
 
 			public static object Pow(object arg1, object arg2)
@@ -88,6 +88,58 @@ namespace KevinComponent.Execution
 					return -v1;
 				else
 					throw new ArgumentException($"Wrong argument type on {nameof(Negate)} method.");
+			}
+
+			public static bool LessThan(object arg1, object arg2)
+			{
+				if (EngineUtil.IsNumericValue(arg1) && EngineUtil.IsNumericValue(arg2))
+				{
+					var v1 = Convert.ToDouble(arg1);
+					var v2 = Convert.ToDouble(arg2);
+
+					return v1 < v2;
+				}
+
+				return false;
+			}
+
+			public static bool LessThanOrEqual(object arg1, object arg2)
+			{
+				if (EngineUtil.IsNumericValue(arg1) && EngineUtil.IsNumericValue(arg2))
+				{
+					var v1 = Convert.ToDouble(arg1);
+					var v2 = Convert.ToDouble(arg2);
+
+					return v1 <= v2;
+				}
+
+				return false;
+			}
+
+			public static bool GreaterThan(object arg1, object arg2)
+			{
+				if (EngineUtil.IsNumericValue(arg1) && EngineUtil.IsNumericValue(arg2))
+				{
+					var v1 = Convert.ToDouble(arg1);
+					var v2 = Convert.ToDouble(arg2);
+
+					return v1 > v2;
+				}
+
+				return false;
+			}
+
+			public static bool GreaterThanOrEqual(object arg1, object arg2)
+			{
+				if (EngineUtil.IsNumericValue(arg1) && EngineUtil.IsNumericValue(arg2))
+				{
+					var v1 = Convert.ToDouble(arg1);
+					var v2 = Convert.ToDouble(arg2);
+
+					return v1 >= v2;
+				}
+
+				return false;
 			}
 
 			public static bool Equal(object arg1, object arg2)
