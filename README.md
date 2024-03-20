@@ -41,6 +41,8 @@ It's inspired by [Jace.NET](https://github.com/pieterderycke/Jace), and some cod
     /****************** RESULT ******************/
     // answer : "TRUE"
     ```
+<br>
+
 ### The CalculationEngine can access the object properties by [PropertyConnector](https://github.com/soomin-kevin-sung/dotnet-calculation-engine/blob/master/src/KevinComponent/KevinComponent/Execution/PropertyConnector.cs)
 * Point Class for formula
     ```csharp
