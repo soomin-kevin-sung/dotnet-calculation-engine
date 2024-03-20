@@ -16,7 +16,7 @@
 	<Product Condition="'$(TargetFramework)' == 'netcoreapp3.1'">KevinComponent netCoreApp3.1</Product>
 	<Product Condition="'$(TargetFramework)' == 'net8.0'">KevinComponent net8.0</Product>
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
-	<PackageId>CalculationEngine</PackageId>
+	<PackageId>KevinComponent.CalculationEngine</PackageId>
 	<Title>CalculationEngine is a useful tool for calculating complex formulas.</Title>
 	<Version>1.0.0.0</Version>
 	<Authors>KevinSung</Authors>
