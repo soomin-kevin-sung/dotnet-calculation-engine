@@ -1,5 +1,8 @@
 # CaculationEngine
 
+[![Build And Publish to Nuget](https://github.com/soomin-kevin-sung/dotnet-calculation-engine/actions/workflows/build_test_publish.yml/badge.svg?branch=master)](https://github.com/soomin-kevin-sung/dotnet-calculation-engine/actions/workflows/build_test_publish.yml)
+![Nuget](https://img.shields.io/nuget/v/kevincomponent.calculationengine?label=NuGet&logo=NuGet)
+<br>
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat)&nbsp;
 ![.NET](https://img.shields.io/badge/.NET-Framework%204.8-512BD4?style=flat)&nbsp;
 ![.NET](https://img.shields.io/badge/.NET-CoreApp%203.1-512BD4?style=flat)&nbsp;
