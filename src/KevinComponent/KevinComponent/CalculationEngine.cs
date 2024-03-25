@@ -180,22 +180,6 @@ namespace KevinComponent
 			return formulaText;
 		}
 
-		private Operation BuildAbstractSyntaxTree(string formulaText, ConstantRegistry compiledConstants)
-		{
-			// formulaText to Tokens.
-			var tokenReader = new TokenReader(_cultureInfo);
-			var tokens = tokenReader.Read(formulaText);
-
-			// Tokens to Operation.
-			var astBuilder = new AstBuilder(FunctionRegistry, _caseSensitive, compiledConstants);
-			var operation = astBuilder.Build(tokens);
-
-			if (_optimizerEnabled)
-				return _optimizer.Optimize(operation, FunctionRegistry, ConstantRegistry, PropertyConnector);
-			else
-				return operation;
-		}
-
 		private Func<IDictionary<string, object>, object> BuildFormula(string formulaText, ConstantRegistry? compiledConstants, Operation operation)
 		{
 			return _executionFormulaCache.GetOrAdd(
@@ -215,6 +199,26 @@ namespace KevinComponent
 				if (functionInfo != null)
 					throw new ArgumentException($"The name \"{variableName}\" is a function name. Parameters cannot have this name.", nameof(variables));
 			}
+		}
+
+		#endregion
+
+		#region Protected Methods
+
+		protected Operation BuildAbstractSyntaxTree(string formulaText, ConstantRegistry compiledConstants)
+		{
+			// formulaText to Tokens.
+			var tokenReader = new TokenReader(_cultureInfo);
+			var tokens = tokenReader.Read(formulaText);
+
+			// Tokens to Operation.
+			var astBuilder = new AstBuilder(FunctionRegistry, _caseSensitive, compiledConstants);
+			var operation = astBuilder.Build(tokens);
+
+			if (_optimizerEnabled)
+				return _optimizer.Optimize(operation, FunctionRegistry, ConstantRegistry, PropertyConnector);
+			else
+				return operation;
 		}
 
 		#endregion
