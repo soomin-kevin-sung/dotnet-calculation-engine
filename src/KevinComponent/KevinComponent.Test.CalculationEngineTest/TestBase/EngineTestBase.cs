@@ -100,5 +100,19 @@ namespace KevinComponent.Test.CalculationEngineTest.TestBase
 			// assert
 			Assert.Equal("True", answer);
 		}
+
+		[Fact]
+		public void AddFunctionTest()
+		{
+			// arrange
+			var engine = new CalculationEngine(new CalculationEngineOptions() { ExecutionMode = _mode });
+			engine.AddFunction(new TestFunction());
+
+			// act
+			var answer = engine.Calculate("Test(4, 5)");
+
+			// assert
+			Assert.Equal(20.0, answer);
+		}
     }
 }

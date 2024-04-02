@@ -121,6 +121,11 @@ namespace KevinComponent
 			return function(variables);
 		}
 
+		public void AddFunction(FunctionInfo functionInfo)
+		{
+			FunctionRegistry.RegisterFunction(functionInfo);
+		}
+
 		#endregion
 
 		#region Private Methods

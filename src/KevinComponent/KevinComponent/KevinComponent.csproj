@@ -18,7 +18,7 @@
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
 	<PackageId>KevinComponent.CalculationEngine</PackageId>
 	<Title>CalculationEngine is a useful tool for calculating complex formulas.</Title>
-	<Version>1.0.0.1</Version>
+	<Version>1.0.0.2</Version>
 	<Authors>KevinSung</Authors>
 	<Description>CalculationEngine is a useful tool for calculating complex formulas.</Description>
 	<Copyright>Copyright © 2024 KevinSung</Copyright>
