@@ -95,6 +95,13 @@ namespace KevinComponent
 
 		#endregion
 
+		#region Protected Properties
+
+		protected bool CacheEnabled
+			=> _cacheEnabled;
+
+		#endregion
+
 		#region Public Methods
 
 		public object? Calculate(string formulaText)
@@ -168,23 +175,6 @@ namespace KevinComponent
 			FunctionRegistry.RegisterFunction(new RandomOperation(_random));
 		}
 
-		private bool IsInFormulaCache(string formulaText, ConstantRegistry? compiledConstants, [NotNullWhen(true)] out Func<IDictionary<string, object>, object>? compiledFunction)
-		{
-			compiledFunction = null;
-			if (_cacheEnabled)
-				return _executionFormulaCache.TryGetValue(GenerateFormulaCacheKey(formulaText, compiledConstants), out compiledFunction);
-
-			return false;
-		}
-
-		private string GenerateFormulaCacheKey(string formulaText, ConstantRegistry? compiledConstants)
-		{
-			if (compiledConstants != null && compiledConstants.Count > 0)
-				return $"{formulaText}@{string.Join(",", compiledConstants.Select(t => $"{t.ConstantName}:{t.Value}"))}";
-
-			return formulaText;
-		}
-
 		private Func<IDictionary<string, object>, object> BuildFormula(string formulaText, ConstantRegistry? compiledConstants, Operation operation)
 		{
 			return _executionFormulaCache.GetOrAdd(
@@ -224,6 +214,23 @@ namespace KevinComponent
 				return _optimizer.Optimize(operation, FunctionRegistry, ConstantRegistry, PropertyConnector);
 			else
 				return operation;
+		}
+
+		protected bool IsInFormulaCache(string formulaText, ConstantRegistry? compiledConstants, [NotNullWhen(true)] out Func<IDictionary<string, object>, object>? compiledFunction)
+		{
+			compiledFunction = null;
+			if (_cacheEnabled)
+				return _executionFormulaCache.TryGetValue(GenerateFormulaCacheKey(formulaText, compiledConstants), out compiledFunction);
+
+			return false;
+		}
+
+		protected string GenerateFormulaCacheKey(string formulaText, ConstantRegistry? compiledConstants)
+		{
+			if (compiledConstants != null && compiledConstants.Count > 0)
+				return $"{formulaText}@{string.Join(",", compiledConstants.Select(t => $"{t.ConstantName}:{t.Value}"))}";
+
+			return formulaText;
 		}
 
 		#endregion

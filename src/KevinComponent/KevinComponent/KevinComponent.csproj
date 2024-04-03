@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net48;netcoreapp3.1;net8.0</TargetFrameworks>
-	<LangVersion>10.0</LangVersion>
+	<LangVersion>12.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<BaseOutputPath>bin</BaseOutputPath>
@@ -18,7 +18,7 @@
 	<AssemblyName>$(MSBuildProjectName).CalculationEngine</AssemblyName>
 	<PackageId>KevinComponent.CalculationEngine</PackageId>
 	<Title>CalculationEngine is a useful tool for calculating complex formulas.</Title>
-	<Version>1.0.0.2</Version>
+	<Version>1.0.0.3</Version>
 	<Authors>KevinSung</Authors>
 	<Description>CalculationEngine is a useful tool for calculating complex formulas.</Description>
 	<Copyright>Copyright © 2024 KevinSung</Copyright>
