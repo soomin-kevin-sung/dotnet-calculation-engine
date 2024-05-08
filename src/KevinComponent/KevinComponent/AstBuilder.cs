@@ -47,21 +47,125 @@ namespace KevinComponent
 
 			_operationCtors = new Dictionary<char, Func<Operation>>()
 			{
-				{ '+', () => new Addition(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '-', () => new Subtraction(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '*', () => new Multiplication(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '/', () => new Division(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '%', () => new Modulo(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '_', () => new UnaryMinus(_resultStack.Pop()) },
-				{ '^', () => new Exponentiation(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '&', () => new And(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '|', () => new Or(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '<', () => new GreaterThan(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '≤', () => new GreaterThanOrEqual(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '>', () => new LessThan(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '≥', () => new LessThanOrEqual(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '=', () => new Equal(_resultStack.Pop(), _resultStack.Pop()) },
-				{ '≠', () => new NotEqual(_resultStack.Pop(), _resultStack.Pop()) },
+				{
+					'+', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Addition(arg1, arg2);
+					}
+				},
+				{
+					'-', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Subtraction(arg1, arg2);
+					}
+				},
+				{
+					'*', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Multiplication(arg1, arg2);
+					}
+				},
+				{
+					'/', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Division(arg1, arg2);
+					}
+				},
+				{
+					'%', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Modulo(arg1, arg2);
+					}
+				},
+				{
+					'_', () =>
+					{
+						var arg = _resultStack.Pop();
+						return new UnaryMinus(arg);
+					}
+				},
+				{
+					'^', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Exponentiation(arg1, arg2);
+					}
+				},
+				{
+					'&', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new And(arg1, arg2);
+					}
+				},
+				{
+					'|', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Or(arg1, arg2);
+					}
+				},
+				{
+					'<', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new GreaterThan(arg1, arg2);
+					}
+				},
+				{
+					'≤', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new GreaterThanOrEqual(arg1, arg2);
+					}
+				},
+				{
+					'>', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new LessThan(arg1, arg2);
+					}
+				},
+				{
+					'≥', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new LessThanOrEqual(arg1, arg2);
+					}
+				},
+				{
+					'=', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new Equal(arg1, arg2);
+					}
+				},
+				{
+					'≠', () =>
+					{
+						var arg2 = _resultStack.Pop();
+						var arg1 = _resultStack.Pop();
+						return new NotEqual(arg1, arg2);
+					}
+				},
 			};
 		}
 
@@ -122,7 +226,7 @@ namespace KevinComponent
 							{
 								if (!_caseSensitive)
 									tokenValue = tokenValue.ToLowerFast();
-								
+
 								_resultStack.Push(new Variable(tokenValue));
 							}
 						}
