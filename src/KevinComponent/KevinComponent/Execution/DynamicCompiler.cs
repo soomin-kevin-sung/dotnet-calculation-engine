@@ -141,8 +141,9 @@ namespace KevinComponent.Execution
 			var subtraction = (Subtraction)operation;
 			var arg1 = GenerateMethodBody(subtraction.Argument1, contextParameter);
 			var arg2 = GenerateMethodBody(subtraction.Argument2, contextParameter);
-
-			return Expression.Subtract(arg1, arg2);
+			
+			var func = PrecompiledMethods.Subtract;
+			return Expression.Call(null, func.GetMethodInfo(), arg1, arg2);
 		}
 
 		private Expression OnMultiplicationGenerateMethodBody(Operation operation, ParameterExpression contextParameter)

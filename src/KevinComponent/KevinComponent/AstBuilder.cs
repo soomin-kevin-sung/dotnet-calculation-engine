@@ -153,7 +153,6 @@ namespace KevinComponent
 							(_operatorStack.Peek().TokenType == TokenType.Operation || _operatorStack.Peek().TokenType == TokenType.Text))
 						{
 							var op2Token = _operatorStack.Peek();
-							var op2 = (char)op2Token.Value;
 							bool isFunctionOnTopOfStack = op2Token.TokenType == TokenType.Text;
 
 							if (isFunctionOnTopOfStack)
@@ -163,6 +162,8 @@ namespace KevinComponent
 							}
 							else
 							{
+								var op2 = (char)op2Token.Value;
+
 								if ((IsLeftAssociativeOperation(op1) && _operationPriority[op1] <= _operationPriority[op2]) ||
 									_operationPriority[op1] < _operationPriority[op2])
 								{
