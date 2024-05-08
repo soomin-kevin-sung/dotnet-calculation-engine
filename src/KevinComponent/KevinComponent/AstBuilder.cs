@@ -123,7 +123,7 @@ namespace KevinComponent
 					{
 						var arg2 = _resultStack.Pop();
 						var arg1 = _resultStack.Pop();
-						return new GreaterThan(arg1, arg2);
+						return new LessThan(arg1, arg2);
 					}
 				},
 				{
@@ -131,7 +131,7 @@ namespace KevinComponent
 					{
 						var arg2 = _resultStack.Pop();
 						var arg1 = _resultStack.Pop();
-						return new GreaterThanOrEqual(arg1, arg2);
+						return new LessThanOrEqual(arg1, arg2);
 					}
 				},
 				{
@@ -139,7 +139,7 @@ namespace KevinComponent
 					{
 						var arg2 = _resultStack.Pop();
 						var arg1 = _resultStack.Pop();
-						return new LessThan(arg1, arg2);
+						return new GreaterThan(arg1, arg2);
 					}
 				},
 				{
@@ -147,7 +147,7 @@ namespace KevinComponent
 					{
 						var arg2 = _resultStack.Pop();
 						var arg1 = _resultStack.Pop();
-						return new LessThanOrEqual(arg1, arg2);
+						return new GreaterThanOrEqual(arg1, arg2);
 					}
 				},
 				{

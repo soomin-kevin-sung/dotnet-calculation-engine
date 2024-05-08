@@ -31,16 +31,16 @@ namespace KevinComponent.Test.CalculationEngineTest
 			var expectedOperatorTypes = new Type[]
 			{
 				typeof(Subtraction), // 1+2+(3*4+5.12)-1e-9
-				typeof(FloatingConstant), // 1e-9
 				typeof(Addition), // 1+2+(3*4+5.12)
-				typeof(Addition), // 3*4+5.12
+				typeof(FloatingConstant), // 1e-9
 				typeof(Addition), // 1+2
-				typeof(FloatingConstant), // 5.12
-				typeof(Multiplication), // 3*4
-				typeof(FloatingConstant), // 2
+				typeof(Addition), // 3*4+5.12
 				typeof(FloatingConstant), // 1
-				typeof(FloatingConstant), // 4
+				typeof(FloatingConstant), // 2
+				typeof(Multiplication), // 3*4
+				typeof(FloatingConstant), // 5.12
 				typeof(FloatingConstant), // 3
+				typeof(FloatingConstant), // 4
 			};
 
 			var q = new Queue<Operation>();
@@ -94,8 +94,8 @@ namespace KevinComponent.Test.CalculationEngineTest
 			var expectedOperatorTypes = new Type[]
 			{
 				typeof(Equal), // var1=="dsadfe dsafed12312+04095_)()("
-				typeof(StringConstant), // "dsadfe dsafed12312+04095_)()("
 				typeof(Variable), // var1
+				typeof(StringConstant), // "dsadfe dsafed12312+04095_)()("
 			};
 
 			var q = new Queue<Operation>();
@@ -134,9 +134,9 @@ namespace KevinComponent.Test.CalculationEngineTest
 				typeof(Function), // if (var1 == 1, "dsadfe dsafed12312+04095_)()(", "NO")
 				typeof(Equal), // "NO"
 				typeof(StringConstant), // "dsadfe dsafed12312+04095_)()("
-				typeof(StringConstant), // var1 == 1
-				typeof(FloatingConstant),
-				typeof(Variable) // var1
+				typeof(StringConstant), // "NO"
+				typeof(Variable), // var1
+				typeof(FloatingConstant) // 1
 			};
 
 			var q = new Queue<Operation>();
@@ -172,8 +172,8 @@ namespace KevinComponent.Test.CalculationEngineTest
 			var expectedOperatorTypes = new Type[]
 			{
 				typeof(Subtraction), // 1 - P1.Offset
-				typeof(ReferenceObjectProperty), // P1.Offset
 				typeof(FloatingConstant), // 1
+				typeof(ReferenceObjectProperty), // P1.Offset
 				typeof(Variable) // P1
 			};
 
